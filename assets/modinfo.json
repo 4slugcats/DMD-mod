@@ -1,0 +1,12 @@
+{
+	"id": "dmd",
+	"name": "Diehard Master-Disaster",
+	"version": "0.0.0",
+	"authors": "4slugcats",
+	"description": "TODO",
+	"requirements": ["slime-cubed.slugbase"],
+	"requirements_names": ["SlugBase"],
+	"priorities": [],
+	"tags": ["Custom Slugcat", "Game Mechanics", "Campaigns"],
+	"checksum_override_version": true
+}
