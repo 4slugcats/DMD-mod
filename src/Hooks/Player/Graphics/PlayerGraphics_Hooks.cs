@@ -75,7 +75,6 @@ public static class PlayerGraphics_Hooks
         // TODO
     }
 
-
     // Draw
     private static void PlayerGraphics_DrawSprites(On.PlayerGraphics.orig_DrawSprites orig, PlayerGraphics self, RoomCamera.SpriteLeaser sLeaser, RoomCamera rCam, float timeStacker, Vector2 camPos)
     {
@@ -92,11 +91,13 @@ public static class PlayerGraphics_Hooks
         UpdateReplacementPlayerSprite(sLeaser, ARM_L_SPRITE, "PlayerArm", "dmd_full");
         UpdateReplacementPlayerSprite(sLeaser, ARM_R_SPRITE, "PlayerArm", "dmd_full");
 
+        UpdateReplacementPlayerSprite(sLeaser, HAND_L_SPRITE, "OnTopOfTerrainHand", "dmd_full");
+        UpdateReplacementPlayerSprite(sLeaser, HAND_R_SPRITE, "OnTopOfTerrainHand", "dmd_full");
+
         UpdateReplacementPlayerSprite(sLeaser, BODY_SPRITE, "Body", "dmd_full");
         UpdateReplacementPlayerSprite(sLeaser, HIPS_SPRITE, "Hips", "dmd_full");
 
         UpdateReplacementPlayerSprite(sLeaser, LEGS_SPRITE, "Legs", "dmd_full");
-
 
         OrderAndColorSprites(self, sLeaser, rCam, camPos, playerModule);
     }

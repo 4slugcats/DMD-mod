@@ -1,4 +1,5 @@
-﻿using Vector2 = UnityEngine.Vector2;
+﻿using RWCustom;
+using Vector2 = UnityEngine.Vector2;
 
 namespace DMD;
 
@@ -61,6 +62,13 @@ public static class PlayerGraphics_Helpers
                 armLSprite.MoveBehindOtherNode(bodySprite);
             }
         }
+
+        foreach (var sprite in sLeaser.sprites)
+        {
+            sprite.color = Color.white;
+        }
+
+        tailSprite.color = Custom.hexToColor("32193C");
     }
 
     public static void UpdateCustomPlayerSprite(RoomCamera.SpriteLeaser sLeaser, int spriteIndexToCopy, string toCopy, string atlasName, string customName, int spriteIndex)
