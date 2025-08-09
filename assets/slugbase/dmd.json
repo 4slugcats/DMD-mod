@@ -10,10 +10,10 @@
         
         "start_room": ["SS_S04"],
         
-        "food_min": 6,
-        "food_max": 9,
+        "food_min": 4,
+        "food_max": 7,
         
-        "throw_skill": [0, 0],
+        "throw_skill": [1, 0],
         
         "weight": [0.95, 0.9],
         "lung_capacity": [1.0, 1.0],
@@ -26,8 +26,8 @@
         "karma": 0,
         "karma_cap": 9,
         
-        "the_mark": true,
-        "the_glow": true,
+        "the_mark": false,
+        "the_glow": false,
 
         "has_dreams": true,
         "use_default_dreams": false,
@@ -38,16 +38,10 @@
         "perma_unlock_gates": false,
         
         "diet": {
-            "base": "White",
-            "corpses": 1.0,
-            "meat": 1.0,
-            "plants": 1.0,
-            "overrides": {
-                "SlugNPC": 0.0
-            }
+            "base": "White"
         },
         
-        "color": "ffffff",
+        "color": "32193c",
         
         "title_card": "dmd_titlecard",
 
