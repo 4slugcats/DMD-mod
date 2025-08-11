@@ -206,8 +206,6 @@ class Pipe : ScavengerBomb
 
     public override void InitiateSprites(RoomCamera.SpriteLeaser sLeaser, RoomCamera rCam)
     {
-        CustomAtlases.FetchAtlas("Guns");
-
         sLeaser.sprites = new FSprite[1];
         sLeaser.sprites[0] = new FSprite("Sticky", true);
         sLeaser.sprites[0].color = Color.white;

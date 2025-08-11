@@ -20,8 +20,8 @@ public class Shotgun : Gun
 
     public override void ShootSound()
     {
-        room.PlaySound(EnumExt_Snd.AK47Shoot, bodyChunks[0], false, .5f + Random.value * .03f, 1f + Random.value * .07f);
-        room.PlaySound(EnumExt_Snd.AK47Shoot, bodyChunks[0], false, .45f + Random.value * .03f, .9f + Random.value * .07f);
+        room.PlaySound(Enums.Sounds.AK47Shoot, bodyChunks[0], false, .5f + Random.value * .03f, 1f + Random.value * .07f);
+        room.PlaySound(Enums.Sounds.AK47Shoot, bodyChunks[0], false, .45f + Random.value * .03f, .9f + Random.value * .07f);
     }
 
     public override void SummonProjectile(PhysicalObject user, bool boostAccuracy)

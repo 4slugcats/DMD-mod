@@ -39,7 +39,7 @@ public class BFG : Gun
 
     public override void SummonProjectile(PhysicalObject user, bool boostAccuracy)
     {
-        var pipeAPO = new AbstractPhysicalObject(room.world, EnumExt_DragonSlayer.BFGOrb, null, abstractPhysicalObject.pos, room.world.game.GetNewID());
+        var pipeAPO = new AbstractPhysicalObject(room.world, Enums.Guns.BFGOrb, null, abstractPhysicalObject.pos, room.world.game.GetNewID());
         pipeAPO.RealizeInRoom();
         var orb = pipeAPO.realizedObject as BFGOrb;
 

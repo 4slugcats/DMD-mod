@@ -28,7 +28,7 @@ public class Derringer : Gun
 
     public override void ShootSound()
     {
-        room.PlaySound(EnumExt_Snd.AK47Shoot, bodyChunks[0], false, .38f + Random.value * .03f, 1.1f + Random.value * .2f);
+        room.PlaySound(Enums.Sounds.AK47Shoot, bodyChunks[0], false, .38f + Random.value * .03f, 1.1f + Random.value * .2f);
     }
 
     public override void SummonProjectile(PhysicalObject user, bool boostAccuracy)

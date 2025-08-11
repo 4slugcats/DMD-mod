@@ -22,7 +22,7 @@ public class Mini : Gun
 
     public override void ShootSound()
     {
-        room.PlaySound(EnumExt_Snd.AK47Shoot, bodyChunks[0], false, .4f + Random.value * .1f, 1.15f + Random.value * .2f);
+        room.PlaySound(Enums.Sounds.AK47Shoot, bodyChunks[0], false, .4f + Random.value * .1f, 1.15f + Random.value * .2f);
     }
 
     public override void SummonProjectile(PhysicalObject user, bool boostAccuracy)

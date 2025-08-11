@@ -42,43 +42,43 @@ abstract public class Gun : Weapon, IDrawable
     {
         switch (i)
         {
-            case 0: return EnumExt_DragonSlayer.RocketlauncherGun;
-            case 1: return EnumExt_DragonSlayer.AK47Gun;
-            case 2: return EnumExt_DragonSlayer.ShotGun;
-            case 4: return EnumExt_DragonSlayer.BFGGun;
-            case 5: return EnumExt_DragonSlayer.MiniGun;
-            default: return EnumExt_DragonSlayer.DerringerGun;
+            case 0: return Enums.Guns.RocketLauncher;
+            case 1: return Enums.Guns.AK47;
+            case 2: return Enums.Guns.ShotGun;
+            case 4: return Enums.Guns.BFG;
+            case 5: return Enums.Guns.MiniGun;
+            default: return Enums.Guns.Derringer;
         }
     }
 
     public static int TypeToIndex(AbstractPhysicalObject.AbstractObjectType type)
     {
-        if (type == EnumExt_DragonSlayer.RocketlauncherGun)
+        if (type == Enums.Guns.RocketLauncher)
         {
             return 0;
         }
 
-        if (type == EnumExt_DragonSlayer.AK47Gun)
+        if (type == Enums.Guns.AK47)
         {
             return 1;
         }
 
-        if (type == EnumExt_DragonSlayer.ShotGun)
+        if (type == Enums.Guns.ShotGun)
         {
             return 2;
         }
 
-        if (type == EnumExt_DragonSlayer.DerringerGun)
+        if (type == Enums.Guns.Derringer)
         {
             return 3;
         }
 
-        if (type == EnumExt_DragonSlayer.BFGGun)//BFG
+        if (type == Enums.Guns.BFG)//BFG
         {
             return 4;
         }
 
-        if (type == EnumExt_DragonSlayer.MiniGun)//Mini
+        if (type == Enums.Guns.MiniGun)//Mini
         {
             return 5;
         }
