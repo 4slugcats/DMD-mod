@@ -25,23 +25,23 @@ public class BFG : Gun
 
     public override void ShootEffects()
     {
-        Vector2 upDir = Custom.PerpendicularVector(aimDir);
+        var upDir = Custom.PerpendicularVector(aimDir);
         if (upDir.y < 0)
         {
             upDir *= -1f;
         }
         room.AddObject(new Explosion.ExplosionLight(firstChunk.pos + upDir * 5f + aimDir * 35f, 100f, 1f, 5, Color.red));
-        for (int i = 0; i < 3; i++)
+        for (var i = 0; i < 3; i++)
         {
-            room.AddObject(new Spark(firstChunk.pos + upDir * 5f + lastAimDir * 25f, aimDir * 50f * UnityEngine.Random.value + Custom.RNV() * 1.5f, Color.Lerp(Color.white, Color.yellow, UnityEngine.Random.value), null, 3, 8));
+            room.AddObject(new Spark(firstChunk.pos + upDir * 5f + lastAimDir * 25f, aimDir * 50f * Random.value + Custom.RNV() * 1.5f, Color.Lerp(Color.white, Color.yellow, Random.value), null, 3, 8));
         }
     }
 
     public override void SummonProjectile(PhysicalObject user, bool boostAccuracy)
     {
-        AbstractPhysicalObject pipeAPO = new AbstractPhysicalObject(room.world, EnumExt_DragonSlayer.BFGOrb, null, this.abstractPhysicalObject.pos, room.world.game.GetNewID());
+        var pipeAPO = new AbstractPhysicalObject(room.world, EnumExt_DragonSlayer.BFGOrb, null, abstractPhysicalObject.pos, room.world.game.GetNewID());
         pipeAPO.RealizeInRoom();
-        BFGOrb orb = pipeAPO.realizedObject as BFGOrb;
+        var orb = pipeAPO.realizedObject as BFGOrb;
 
         //dont let pebbels shoot it !!
         orb.firstChunk.pos = firstChunk.pos + aimDir * 5;

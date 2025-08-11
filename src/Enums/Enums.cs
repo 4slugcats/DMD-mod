@@ -7,7 +7,7 @@ public static partial class Enums
     public static void InitEnums()
     {
         _ = DMD;
-
         _ = Scenes.Slugcat_DMD;
+        _ = Guns.AK47;
     }
 }

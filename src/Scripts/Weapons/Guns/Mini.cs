@@ -22,12 +22,12 @@ public class Mini : Gun
 
     public override void ShootSound()
     {
-        room.PlaySound(EnumExt_Snd.AK47Shoot, bodyChunks[0], false, .4f + UnityEngine.Random.value * .1f, 1.15f + UnityEngine.Random.value * .2f);
+        room.PlaySound(EnumExt_Snd.AK47Shoot, bodyChunks[0], false, .4f + Random.value * .1f, 1.15f + Random.value * .2f);
     }
 
     public override void SummonProjectile(PhysicalObject user, bool boostAccuracy)
     {
-        Bullet newBullet = new Bullet(user, firstChunk.pos + upDir * 2f + aimDir * 20, (aimDir.normalized + (UnityEngine.Random.insideUnitCircle * randomSpreadStat * (boostAccuracy ? 0.3f : 1f)) * .045f).normalized, damageStat, 4.5f + 2f * damageStat, 15f + 30f * damageStat, false);
+        var newBullet = new Bullet(user, firstChunk.pos + upDir * 2f + aimDir * 20, (aimDir.normalized + (Random.insideUnitCircle * randomSpreadStat * (boostAccuracy ? 0.3f : 1f)) * .045f).normalized, damageStat, 4.5f + 2f * damageStat, 15f + 30f * damageStat, false);
         room.AddObject(newBullet);
         newBullet.Fire();
         user.bodyChunks[0].vel -= aimDir * 2.5f;
@@ -36,16 +36,20 @@ public class Mini : Gun
 
     public override void ShootEffects()
     {
-        if (shootswap) fireDelay += 10;
-        Vector2 upDir = Custom.PerpendicularVector(aimDir);
+        if (shootswap)
+        {
+            fireDelay += 10;
+        }
+
+        var upDir = Custom.PerpendicularVector(aimDir);
         if (upDir.y < 0)
         {
             upDir *= -1f;
         }
         room.AddObject(new Explosion.ExplosionLight(firstChunk.pos + upDir * 5f + aimDir * 35f, 60f, 1f, 4, Color.yellow));
-        for (int i = 0; i < 2; i++)
+        for (var i = 0; i < 2; i++)
         {
-            room.AddObject(new Spark(firstChunk.pos + upDir * 5f + lastAimDir * 25f, aimDir * 50f * UnityEngine.Random.value + Custom.RNV() * 1.5f, Color.Lerp(Color.white, Color.yellow, UnityEngine.Random.value), null, 3, 8));
+            room.AddObject(new Spark(firstChunk.pos + upDir * 5f + lastAimDir * 25f, aimDir * 50f * Random.value + Custom.RNV() * 1.5f, Color.Lerp(Color.white, Color.yellow, Random.value), null, 3, 8));
         }
     }
 
@@ -55,7 +59,7 @@ public class Mini : Gun
         sLeaser.sprites[0] = new FSprite(GunSpriteName + "1", true);
         sLeaser.sprites[0].anchorY = 0.5f;
 
-        for (int i = 1; i <= fullClip; i++)
+        for (var i = 1; i <= fullClip; i++)
         {
             sLeaser.sprites[i] = new FSprite("pixel")
             {
@@ -76,30 +80,34 @@ public class Mini : Gun
         sLeaser.sprites[0].rotation = Custom.AimFromOneVectorToAnother(new Vector2(0f, 0f), Vector3.Slerp(lastAimDir, aimDir, timeStacker)) - 90f;
         if (mode == Mode.OnBack)
         {
-            Vector2 v = Vector3.Slerp(this.lastRotation, this.rotation, timeStacker);
-            Vector2 perpV = Custom.PerpendicularVector(v);
+            Vector2 v = Vector3.Slerp(lastRotation, rotation, timeStacker);
+            var perpV = Custom.PerpendicularVector(v);
             sLeaser.sprites[0].rotation = Custom.AimFromOneVectorToAnother(new Vector2(0f, 0f), perpV);
             sLeaser.sprites[0].scaleY = -1f;
         }
         else
+        {
             sLeaser.sprites[0].scaleY = (flipGun ? 1f : -1f);
+        }
 
 
         if (owner != null && owner is Player p && mode == Mode.Carried)
-            for (int i = 1; i <= fullClip; i++)
+        {
+            for (var i = 1; i <= fullClip; i++)
             {
                 sLeaser.sprites[i].isVisible = i <= Clip && (!HHUtils.inventories.GetOrCreateValue(p)?.active ?? false);
                 sLeaser.sprites[i].SetPosition(Custom.DegToVec((firstPipAngle - (angleDiff * (i - 1)))) * 30 + owner.firstChunk.pos + new Vector2(0, 20) - camPos);
             }
+        }
         else
         {
-            for (int i = 1; i <= fullClip; i++)
+            for (var i = 1; i <= fullClip; i++)
             {
                 sLeaser.sprites[i].isVisible = false;
             }
         }
 
-        for (int i = 1; i <= fullClip; i++)
+        for (var i = 1; i <= fullClip; i++)
         {
             sLeaser.sprites[i].alpha = ownerAge / 20f;
         }

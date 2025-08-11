@@ -54,7 +54,9 @@ class BFGOrb : PhysicalObject, IDrawable
         sLeaser.sprites[0].SetPosition(firstChunk.pos - camPos);
 
         if(age % 5 == 0)
-            sLeaser.sprites[0].rotation = UnityEngine.Random.value * 360f;
+        {
+            sLeaser.sprites[0].rotation = Random.value * 360f;
+        }
 
         //sLeaser.sprites[1].SetPosition(firstChunk.pos - camPos);
     }

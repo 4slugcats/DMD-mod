@@ -10,7 +10,7 @@ class Pipe : ScavengerBomb
     {
         bounce = .3f;
         gravity = .8f;
-        rotationSpeed = (UnityEngine.Random.value * .5f) / 10;
+        rotationSpeed = (Random.value * .5f) / 10;
     }
     bool Stuck = false;
     Vector2 stuckPos;
@@ -20,7 +20,7 @@ class Pipe : ScavengerBomb
         if (burn == 0f)
         {
             burn = 21400000f;
-            firstChunk.vel += Custom.RNV() * UnityEngine.Random.value * 6f;
+            firstChunk.vel += Custom.RNV() * Random.value * 6f;
         }
         else
         {
@@ -34,16 +34,16 @@ class Pipe : ScavengerBomb
         {
             return;
         }
-        Vector2 vector = Vector2.Lerp(base.firstChunk.pos, base.firstChunk.lastPos, 0.35f);
-        this.room.AddObject(new SootMark(this.room, vector, 60f, true));
-        this.room.AddObject(new StickyExplosion(this.room, this, vector, 7, 200f, 5.2f, 1.4f, 200f, 0.2f, this.thrownBy, 0.7f, 160f, 1f));
-        this.room.AddObject(new Explosion.ExplosionLight(vector, 230f, .7f, 5, this.explodeColor));
-        this.room.AddObject(new Explosion.ExplosionLight(vector, 180f, .7f, 3, new Color(1f, 1f, 1f)));
-        this.room.AddObject(new ExplosionSpikes(this.room, vector, 18, 30f, 9f, 7f, 170f, this.explodeColor));
-        this.room.AddObject(new ShockWave(vector, 280f, 0.045f, 5));
-        for (int i = 0; i < 25; i++)
+        var vector = Vector2.Lerp(firstChunk.pos, firstChunk.lastPos, 0.35f);
+        room.AddObject(new SootMark(room, vector, 60f, true));
+        room.AddObject(new StickyExplosion(room, this, vector, 7, 200f, 5.2f, 1.4f, 200f, 0.2f, thrownBy, 0.7f, 160f, 1f));
+        room.AddObject(new Explosion.ExplosionLight(vector, 230f, .7f, 5, explodeColor));
+        room.AddObject(new Explosion.ExplosionLight(vector, 180f, .7f, 3, new Color(1f, 1f, 1f)));
+        room.AddObject(new ExplosionSpikes(room, vector, 18, 30f, 9f, 7f, 170f, explodeColor));
+        room.AddObject(new ShockWave(vector, 280f, 0.045f, 5));
+        for (var i = 0; i < 25; i++)
         {
-            Vector2 a = Custom.RNV();
+            var a = Custom.RNV();
             if (room.GetTile(vector + a * 20f).Solid)
             {
                 if (!room.GetTile(vector - a * 20f).Solid)
@@ -55,36 +55,36 @@ class Pipe : ScavengerBomb
                     a = Custom.RNV();
                 }
             }
-            for (int j = 0; j < 3; j++)
+            for (var j = 0; j < 3; j++)
             {
-                room.AddObject(new Spark(vector + a * Mathf.Lerp(30f, 60f, UnityEngine.Random.value), 2 * a * Mathf.Lerp(7f, 38f, UnityEngine.Random.value) + Custom.RNV() * 20f * UnityEngine.Random.value, Color.Lerp(explodeColor, new Color(1f, 1f, 1f), UnityEngine.Random.value), null, 11, 28));
+                room.AddObject(new Spark(vector + a * Mathf.Lerp(30f, 60f, Random.value), 2 * a * Mathf.Lerp(7f, 38f, Random.value) + Custom.RNV() * 20f * Random.value, Color.Lerp(explodeColor, new Color(1f, 1f, 1f), Random.value), null, 11, 28));
             }
-            for (int k = 0; k < 6; k++)
+            for (var k = 0; k < 6; k++)
             {
-                room.AddObject(new CollectToken.TokenSpark(vector + Custom.RNV() * Mathf.Lerp(30f, 60f, UnityEngine.Random.value), 2 * Custom.RNV() * Mathf.Lerp(7f, 38f, UnityEngine.Random.value) + Custom.RNV() * 15f * UnityEngine.Random.value, explodeColor, false));
+                room.AddObject(new CollectToken.TokenSpark(vector + Custom.RNV() * Mathf.Lerp(30f, 60f, Random.value), 2 * Custom.RNV() * Mathf.Lerp(7f, 38f, Random.value) + Custom.RNV() * 15f * Random.value, explodeColor, false));
             }
-            room.AddObject(new Explosion.FlashingSmoke(vector + a * 40f * UnityEngine.Random.value, 2 * a * Mathf.Lerp(4f, 20f, Mathf.Pow(UnityEngine.Random.value, 2f)), 1f + 0.05f * UnityEngine.Random.value, new Color(1f, 1f, 1f), explodeColor, UnityEngine.Random.Range(3, 11)));
+            room.AddObject(new Explosion.FlashingSmoke(vector + a * 40f * Random.value, 2 * a * Mathf.Lerp(4f, 20f, Mathf.Pow(Random.value, 2f)), 1f + 0.05f * Random.value, new Color(1f, 1f, 1f), explodeColor, Random.Range(3, 11)));
         }
         if (smoke != null)
         {
-            for (int k = 0; k < 8; k++)
+            for (var k = 0; k < 8; k++)
             {
-                smoke.EmitWithMyLifeTime(vector + Custom.RNV(), Custom.RNV() * UnityEngine.Random.value * 17f);
+                smoke.EmitWithMyLifeTime(vector + Custom.RNV(), Custom.RNV() * Random.value * 17f);
             }
         }
-        for (int l = 0; l < 6; l++)
+        for (var l = 0; l < 6; l++)
         {
-            room.AddObject(new BombFragment(vector, Custom.DegToVec(((float)l + UnityEngine.Random.value) / 6f * 360f) * Mathf.Lerp(18f, 38f, UnityEngine.Random.value)));
+            room.AddObject(new BombFragment(vector, Custom.DegToVec(((float)l + Random.value) / 6f * 360f) * Mathf.Lerp(18f, 38f, Random.value)));
         }
         room.ScreenMovement(new Vector2?(vector), default(Vector2), 1.3f);
-        for (int m = 0; m < abstractPhysicalObject.stuckObjects.Count; m++)
+        for (var m = 0; m < abstractPhysicalObject.stuckObjects.Count; m++)
         {
             abstractPhysicalObject.stuckObjects[m].Deactivate();
         }
-        room.PlaySound(SoundID.Bomb_Explode, vector, .8f, 1.1f + .3f * UnityEngine.Random.value);
+        room.PlaySound(SoundID.Bomb_Explode, vector, .8f, 1.1f + .3f * Random.value);
         room.InGameNoise(new InGameNoise(vector, 18000f, this, 1f));
-        bool flag = hitChunk != null;
-        for (int n = 0; n < 5; n++)
+        var flag = hitChunk != null;
+        for (var n = 0; n < 5; n++)
         {
             if (room.GetTile(vector + Custom.fourDirectionsAndZero[n].ToVector2() * 20f).Solid)
             {
@@ -178,7 +178,10 @@ class Pipe : ScavengerBomb
             (result.obj as IHaveAppendages).ApplyForceOnAppendage(result.onAppendagePos, firstChunk.vel * firstChunk.mass);
         }
         if (!ignited)
+        {
             InitiateBurn();
+        }
+
         return true;
     }
 
@@ -189,7 +192,10 @@ class Pipe : ScavengerBomb
         ChangeMode(Mode.Free);
         firstChunk.vel = deflectDir * bounceSpeed * 0.5f;
         if (!ignited)
+        {
             InitiateBurn();
+        }
+
         SetRandomSpin();
     }
 
@@ -212,10 +218,10 @@ class Pipe : ScavengerBomb
 
     public override void DrawSprites(RoomCamera.SpriteLeaser sLeaser, RoomCamera rCam, float timeStacker, Vector2 camPos)
     {
-        Vector2 position = Vector2.Lerp(firstChunk.lastPos, firstChunk.pos, timeStacker);
+        var position = Vector2.Lerp(firstChunk.lastPos, firstChunk.pos, timeStacker);
         if (vibrate > 0)
         {
-            position += Custom.DegToVec(UnityEngine.Random.value * 360f) * 2f * UnityEngine.Random.value;
+            position += Custom.DegToVec(Random.value * 360f) * 2f * Random.value;
         }
 
         Vector2 rotation = Vector3.Slerp(lastRotation, this.rotation, timeStacker);

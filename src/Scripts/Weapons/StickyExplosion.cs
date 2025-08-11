@@ -12,53 +12,53 @@ public class StickyExplosion : Explosion
 
     public override void Update(bool eu)
     {
-        this.evenUpdate = eu; // this is what the base.update would do for normal explosions
+        evenUpdate = eu; // this is what the base.update would do for normal explosions
 
-        if (!this.explosionReactorsNotified)
+        if (!explosionReactorsNotified)
         {
-            this.explosionReactorsNotified = true;
-            for (int i = 0; i < this.room.updateList.Count; i++)
+            explosionReactorsNotified = true;
+            for (var i = 0; i < room.updateList.Count; i++)
             {
-                if (this.room.updateList[i] is Explosion.IReactToExplosions)
+                if (room.updateList[i] is IReactToExplosions)
                 {
-                    (this.room.updateList[i] as Explosion.IReactToExplosions).Explosion(this);
+                    (room.updateList[i] as IReactToExplosions).Explosion(this);
                 }
             }
-            if (this.room.waterObject != null)
+            if (room.waterObject != null)
             {
-                this.room.waterObject.Explosion(this);
+                room.waterObject.Explosion(this);
             }
-            if (this.sourceObject != null)
+            if (sourceObject != null)
             {
-                this.room.InGameNoise(new InGameNoise(this.pos, this.backgroundNoise * 2700f, this.sourceObject, this.backgroundNoise * 6f));
+                room.InGameNoise(new InGameNoise(pos, backgroundNoise * 2700f, sourceObject, backgroundNoise * 6f));
             }
         }
-        this.room.MakeBackgroundNoise(this.backgroundNoise);
-        float num = this.rad * (0.25f + 0.75f * Mathf.Sin(Mathf.InverseLerp(0f, (float)this.lifeTime, (float)this.frame) * 3.1415927f));
-        for (int j = 0; j < this.room.physicalObjects.Length; j++)
+        room.MakeBackgroundNoise(backgroundNoise);
+        var num = rad * (0.25f + 0.75f * Mathf.Sin(Mathf.InverseLerp(0f, (float)lifeTime, (float)frame) * 3.1415927f));
+        for (var j = 0; j < room.physicalObjects.Length; j++)
         {
-            for (int k = 0; k < this.room.physicalObjects[j].Count; k++)
+            for (var k = 0; k < room.physicalObjects[j].Count; k++)
             {
-                if (this.sourceObject != this.room.physicalObjects[j][k] && !this.room.physicalObjects[j][k].slatedForDeletetion)
+                if (sourceObject != room.physicalObjects[j][k] && !room.physicalObjects[j][k].slatedForDeletetion)
                 {
-                    float num2 = 0f;
-                    float num3 = float.MaxValue;
-                    int num4 = -1;
-                    for (int l = 0; l < this.room.physicalObjects[j][k].bodyChunks.Length; l++)
+                    var num2 = 0f;
+                    var num3 = float.MaxValue;
+                    var num4 = -1;
+                    for (var l = 0; l < room.physicalObjects[j][k].bodyChunks.Length; l++)
                     {
-                        float num5 = Vector2.Distance(this.pos, this.room.physicalObjects[j][k].bodyChunks[l].pos);
+                        var num5 = Vector2.Distance(pos, room.physicalObjects[j][k].bodyChunks[l].pos);
                         num3 = Mathf.Min(num3, num5);
                         if (num5 < num)
                         {
-                            float num6 = Mathf.InverseLerp(num, num * 0.25f, num5);
-                            if (!this.room.VisualContact(this.pos, this.room.physicalObjects[j][k].bodyChunks[l].pos))
+                            var num6 = Mathf.InverseLerp(num, num * 0.25f, num5);
+                            if (!room.VisualContact(pos, room.physicalObjects[j][k].bodyChunks[l].pos))
                             {
                                 num6 -= 0.5f;
                             }
                             if (num6 > 0f)
                             {
-                                this.room.physicalObjects[j][k].bodyChunks[l].vel += this.PushAngle(this.pos, this.room.physicalObjects[j][k].bodyChunks[l].pos) * (this.force / this.room.physicalObjects[j][k].bodyChunks[l].mass) * num6;
-                                this.room.physicalObjects[j][k].bodyChunks[l].pos += this.PushAngle(this.pos, this.room.physicalObjects[j][k].bodyChunks[l].pos) * (this.force / this.room.physicalObjects[j][k].bodyChunks[l].mass) * num6 * 0.1f;
+                                room.physicalObjects[j][k].bodyChunks[l].vel += PushAngle(pos, room.physicalObjects[j][k].bodyChunks[l].pos) * (force / room.physicalObjects[j][k].bodyChunks[l].mass) * num6;
+                                room.physicalObjects[j][k].bodyChunks[l].pos += PushAngle(pos, room.physicalObjects[j][k].bodyChunks[l].pos) * (force / room.physicalObjects[j][k].bodyChunks[l].mass) * num6 * 0.1f;
                                 if (num6 > num2)
                                 {
                                     num2 = num6;
@@ -67,67 +67,72 @@ public class StickyExplosion : Explosion
                             }
                         }
                     }
-                    if (this.room.physicalObjects[j][k] == this.killTagHolder)
+                    if (room.physicalObjects[j][k] == killTagHolder)
                     {
-                        num2 *= this.killTagHolderDmgFactor;
+                        num2 *= killTagHolderDmgFactor;
                     }
-                    if (this.deafen > 0f && this.room.physicalObjects[j][k] is Creature)
+                    if (deafen > 0f && room.physicalObjects[j][k] is Creature)
                     {
-                        (this.room.physicalObjects[j][k] as Creature).Deafen((int)Custom.LerpMap(num3, num * 1.5f * this.deafen, num * Mathf.Lerp(1f, 4f, this.deafen), 650f * this.deafen, 0f));
+                        (room.physicalObjects[j][k] as Creature).Deafen((int)Custom.LerpMap(num3, num * 1.5f * deafen, num * Mathf.Lerp(1f, 4f, deafen), 650f * deafen, 0f));
                     }
                     if (num4 > -1)
                     {
-                        if (this.room.physicalObjects[j][k] is Creature)
+                        if (room.physicalObjects[j][k] is Creature)
                         {
-                            int num7 = 0;
-                            while ((float)num7 < Math.Min(Mathf.Round(num2 * this.damage * 2f), 8f))
+                            var num7 = 0;
+                            while ((float)num7 < Math.Min(Mathf.Round(num2 * damage * 2f), 8f))
                             {
-                                Vector2 p = this.room.physicalObjects[j][k].bodyChunks[num4].pos + Custom.RNV() * this.room.physicalObjects[j][k].bodyChunks[num4].rad * UnityEngine.Random.value;
-                                this.room.AddObject(new WaterDrip(p, Custom.DirVec(this.pos, p) * this.force * UnityEngine.Random.value * num2, false));
+                                var p = room.physicalObjects[j][k].bodyChunks[num4].pos + Custom.RNV() * room.physicalObjects[j][k].bodyChunks[num4].rad * Random.value;
+                                room.AddObject(new WaterDrip(p, Custom.DirVec(pos, p) * force * Random.value * num2, false));
                                 num7++;
                             }
-                            if (this.killTagHolder != null && this.room.physicalObjects[j][k] != this.killTagHolder)
+                            if (killTagHolder != null && room.physicalObjects[j][k] != killTagHolder)
                             {
-                                (this.room.physicalObjects[j][k] as Creature).SetKillTag(this.killTagHolder.abstractCreature);
+                                (room.physicalObjects[j][k] as Creature).SetKillTag(killTagHolder.abstractCreature);
                             }
-                            if((this.room.physicalObjects[j][k] as Creature) is Player player && HHUtils.IsMe(player))
-                                (this.room.physicalObjects[j][k] as Creature).Violence(null, null, this.room.physicalObjects[j][k].bodyChunks[num4], null, Creature.DamageType.Explosion, 0, num2 * this.stun * 0.05f);
+                            if((room.physicalObjects[j][k] as Creature) is Player player && HHUtils.IsMe(player))
+                            {
+                                (room.physicalObjects[j][k] as Creature).Violence(null, null, room.physicalObjects[j][k].bodyChunks[num4], null, Creature.DamageType.Explosion, 0, num2 * stun * 0.05f);
+                            }
                             else
-                                (this.room.physicalObjects[j][k] as Creature).Violence(null, null, this.room.physicalObjects[j][k].bodyChunks[num4], null, Creature.DamageType.Explosion, num2 * this.damage / ((!((this.room.physicalObjects[j][k] as Creature).State is HealthState)) ? 1f : ((float)this.lifeTime)), num2 * this.stun);
-                            if (this.minStun > 0f)
                             {
-                                (this.room.physicalObjects[j][k] as Creature).Stun((int)(this.minStun * Mathf.InverseLerp(0f, 0.5f, num2)));
+                                (room.physicalObjects[j][k] as Creature).Violence(null, null, room.physicalObjects[j][k].bodyChunks[num4], null, Creature.DamageType.Explosion, num2 * damage / ((!((room.physicalObjects[j][k] as Creature).State is HealthState)) ? 1f : ((float)lifeTime)), num2 * stun);
                             }
-                            if ((this.room.physicalObjects[j][k] as Creature).graphicsModule != null && (this.room.physicalObjects[j][k] as Creature).graphicsModule.bodyParts != null)
+
+                            if (minStun > 0f)
                             {
-                                for (int m = 0; m < (this.room.physicalObjects[j][k] as Creature).graphicsModule.bodyParts.Length; m++)
+                                (room.physicalObjects[j][k] as Creature).Stun((int)(minStun * Mathf.InverseLerp(0f, 0.5f, num2)));
+                            }
+                            if ((room.physicalObjects[j][k] as Creature).graphicsModule != null && (room.physicalObjects[j][k] as Creature).graphicsModule.bodyParts != null)
+                            {
+                                for (var m = 0; m < (room.physicalObjects[j][k] as Creature).graphicsModule.bodyParts.Length; m++)
                                 {
-                                    if ((this.room.physicalObjects[j][k] as Creature) is Player payer && HHUtils.IsMe(payer))
+                                    if ((room.physicalObjects[j][k] as Creature) is Player payer && HHUtils.IsMe(payer))
                                     {
-                                        (this.room.physicalObjects[j][k] as Creature).graphicsModule.bodyParts[m].pos += this.PushAngle(this.pos, (this.room.physicalObjects[j][k] as Creature).graphicsModule.bodyParts[m].pos) * num2 * this.force * 2f;
-                                        (this.room.physicalObjects[j][k] as Creature).graphicsModule.bodyParts[m].vel += this.PushAngle(this.pos, (this.room.physicalObjects[j][k] as Creature).graphicsModule.bodyParts[m].pos) * num2 * this.force * 2f;
+                                        (room.physicalObjects[j][k] as Creature).graphicsModule.bodyParts[m].pos += PushAngle(pos, (room.physicalObjects[j][k] as Creature).graphicsModule.bodyParts[m].pos) * num2 * force * 2f;
+                                        (room.physicalObjects[j][k] as Creature).graphicsModule.bodyParts[m].vel += PushAngle(pos, (room.physicalObjects[j][k] as Creature).graphicsModule.bodyParts[m].pos) * num2 * force * 2f;
                                     }
                                     else
                                     {
-                                        (this.room.physicalObjects[j][k] as Creature).graphicsModule.bodyParts[m].pos += this.PushAngle(this.pos, (this.room.physicalObjects[j][k] as Creature).graphicsModule.bodyParts[m].pos) * num2 * this.force * 5f;
-                                        (this.room.physicalObjects[j][k] as Creature).graphicsModule.bodyParts[m].vel += this.PushAngle(this.pos, (this.room.physicalObjects[j][k] as Creature).graphicsModule.bodyParts[m].pos) * num2 * this.force * 5f;
+                                        (room.physicalObjects[j][k] as Creature).graphicsModule.bodyParts[m].pos += PushAngle(pos, (room.physicalObjects[j][k] as Creature).graphicsModule.bodyParts[m].pos) * num2 * force * 5f;
+                                        (room.physicalObjects[j][k] as Creature).graphicsModule.bodyParts[m].vel += PushAngle(pos, (room.physicalObjects[j][k] as Creature).graphicsModule.bodyParts[m].pos) * num2 * force * 5f;
                                     }
-                                    if ((this.room.physicalObjects[j][k] as Creature).graphicsModule.bodyParts[m] is Limb)
+                                    if ((room.physicalObjects[j][k] as Creature).graphicsModule.bodyParts[m] is Limb)
                                     {
-                                        ((this.room.physicalObjects[j][k] as Creature).graphicsModule.bodyParts[m] as Limb).mode = Limb.Mode.Dangle;
+                                        ((room.physicalObjects[j][k] as Creature).graphicsModule.bodyParts[m] as Limb).mode = Limb.Mode.Dangle;
                                     }
                                 }
                             }
                         }
-                        this.room.physicalObjects[j][k].HitByExplosion(num2, this, num4);
+                        room.physicalObjects[j][k].HitByExplosion(num2, this, num4);
                     }
                 }
             }
         }
-        this.frame++;
-        if (this.frame > this.lifeTime)
+        frame++;
+        if (frame > lifeTime)
         {
-            this.Destroy();
+            Destroy();
         }
     }
 }
