@@ -23,10 +23,14 @@ public class AK47 : Gun
     {
         room.PlaySound(Enums.Sounds.AK47Shoot, bodyChunks[0], false, .36f + Random.value * .02f, 1.05f + Random.value * .2f);
     }
-z
+
     public override void SummonProjectile(PhysicalObject user, bool boostAccuracy)
     {
-        var newBullet = new Bullet(user, user.abstractPhysicalObject.world, firstChunk.pos + upDir * 5f, (aimDir.normalized + (Random.insideUnitCircle * randomSpreadStat * (boostAccuracy ? 0.3f : 1f)) * .045f).normalized, damageStat, 4.5f + 2f * damageStat, 15f + 30f * damageStat, false);
+        var newBullet = new Bullet(user, firstChunk.pos + upDir * 5f,
+            (aimDir.normalized +
+             (Random.insideUnitCircle * randomSpreadStat * (boostAccuracy ? 0.3f : 1f)) * .045f).normalized,
+            damageStat, 4.5f + 2f * damageStat, 15f + 30f * damageStat, false);
+
         room.AddObject(newBullet);
         newBullet.Fire();
         user.bodyChunks[0].vel -= aimDir * 2f;

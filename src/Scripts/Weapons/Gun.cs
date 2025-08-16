@@ -235,10 +235,10 @@ abstract public class Gun : Weapon, IDrawable
 
     public void TryShoot(PhysicalObject user, Vector2 fireDir, bool wantsandcanreload)
     {
-        if(user is Player p && HHUtils.IsMe(p) && HHUtils.inventories.GetOrCreateValue(p).active)
-        {
-            return;
-        }
+        // if(user is Player p && HHUtils.IsMe(p) && HHUtils.inventories.GetOrCreateValue(p).active)
+        // {
+        //     return;
+        // }
 
         Vector2 targetCoord;
         var right = fireDir.x > 0;
@@ -292,11 +292,11 @@ abstract public class Gun : Weapon, IDrawable
         if (owner is Player p && smart)
         {
             //Debug.Log(ChugBaseHunter.inventories[p] != null);
-            if (HHUtils.inventories.GetOrCreateValue(p).CanFeedGun(this))
-            {
-                Debug.Log(HHUtils.inventories.GetOrCreateValue(p) != null);
-                costsatisfied = true;
-            }
+            // if (HHUtils.inventories.GetOrCreateValue(p).CanFeedGun(this))
+            // {
+            //     Debug.Log(HHUtils.inventories.GetOrCreateValue(p) != null);
+            //     costsatisfied = true;
+            // }
         }
 
         if ((smart && costsatisfied) || owner is Scavenger || owner == null)
@@ -375,10 +375,10 @@ abstract public class Gun : Weapon, IDrawable
         ChangeMode(Mode.Carried);
         base.Grabbed(grasp);
 
-        if (HHUtils.IsMe(owner) && TypeToIndex(abstractPhysicalObject.type) > 3 && !HHUtils.inventories.GetOrCreateValue(owner as Player).ownedGuns[TypeToIndex(abstractPhysicalObject.type) - 4])
-        {
-            HHUtils.inventories.GetOrCreateValue(owner as Player).Upgrade(this);
-        }
+        // if (HHUtils.IsMe(owner) && TypeToIndex(abstractPhysicalObject.type) > 3 && !HHUtils.inventories.GetOrCreateValue(owner as Player).ownedGuns[TypeToIndex(abstractPhysicalObject.type) - 4])
+        // {
+        //     HHUtils.inventories.GetOrCreateValue(owner as Player).Upgrade(this);
+        // }
     }
 
     public override void InitiateSprites(RoomCamera.SpriteLeaser sLeaser, RoomCamera rCam)
@@ -425,7 +425,7 @@ abstract public class Gun : Weapon, IDrawable
         {
             for (var i = 1; i <= fullClip; i++)
             {
-                sLeaser.sprites[i].isVisible = i <= Clip && (!HHUtils.inventories.GetOrCreateValue(p)?.active ?? false);
+                sLeaser.sprites[i].isVisible = i <= Clip; // TODO
                 sLeaser.sprites[i].SetPosition(Custom.DegToVec((firstPipAngle - (angleDiff * (i - 1)))) * 30 + owner.firstChunk.pos + new Vector2(0, 20) - camPos);
             }
         }

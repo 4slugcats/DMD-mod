@@ -14,5 +14,6 @@ public static partial class Enums
         public static ObjectType Derringer { get; } = new(nameof(Derringer), true);
 
         public static ObjectType BFGOrb { get; } = new(nameof(BFGOrb), true);
+        public static ObjectType Pipe { get; } = new(nameof(Pipe), true);
     }
 }

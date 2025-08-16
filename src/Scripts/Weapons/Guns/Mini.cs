@@ -95,7 +95,7 @@ public class Mini : Gun
         {
             for (var i = 1; i <= fullClip; i++)
             {
-                sLeaser.sprites[i].isVisible = i <= Clip && (!HHUtils.inventories.GetOrCreateValue(p)?.active ?? false);
+                sLeaser.sprites[i].isVisible = i <= Clip; // TODO
                 sLeaser.sprites[i].SetPosition(Custom.DegToVec((firstPipAngle - (angleDiff * (i - 1)))) * 30 + owner.firstChunk.pos + new Vector2(0, 20) - camPos);
             }
         }

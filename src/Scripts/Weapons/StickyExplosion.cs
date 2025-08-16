@@ -90,7 +90,7 @@ public class StickyExplosion : Explosion
                             {
                                 (room.physicalObjects[j][k] as Creature).SetKillTag(killTagHolder.abstractCreature);
                             }
-                            if((room.physicalObjects[j][k] as Creature) is Player player && HHUtils.IsMe(player))
+                            if((room.physicalObjects[j][k] as Creature) is Player player && player.IsDMD())
                             {
                                 (room.physicalObjects[j][k] as Creature).Violence(null, null, room.physicalObjects[j][k].bodyChunks[num4], null, Creature.DamageType.Explosion, 0, num2 * stun * 0.05f);
                             }
@@ -107,7 +107,7 @@ public class StickyExplosion : Explosion
                             {
                                 for (var m = 0; m < (room.physicalObjects[j][k] as Creature).graphicsModule.bodyParts.Length; m++)
                                 {
-                                    if ((room.physicalObjects[j][k] as Creature) is Player payer && HHUtils.IsMe(payer))
+                                    if ((room.physicalObjects[j][k] as Creature) is Player p && p.IsDMD())
                                     {
                                         (room.physicalObjects[j][k] as Creature).graphicsModule.bodyParts[m].pos += PushAngle(pos, (room.physicalObjects[j][k] as Creature).graphicsModule.bodyParts[m].pos) * num2 * force * 2f;
                                         (room.physicalObjects[j][k] as Creature).graphicsModule.bodyParts[m].vel += PushAngle(pos, (room.physicalObjects[j][k] as Creature).graphicsModule.bodyParts[m].pos) * num2 * force * 2f;
