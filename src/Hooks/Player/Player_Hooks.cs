@@ -8,6 +8,14 @@ public static class Player_Hooks
     {
         On.Player.ctor += PlayerOnctor;
         On.Player.Update += Player_Update;
+        On.Player.checkInput += PlayerOncheckInput;
+    }
+
+    private static void PlayerOncheckInput(On.Player.orig_checkInput orig, Player self)
+    {
+        orig(self);
+
+
     }
 
     private static void PlayerOnctor(On.Player.orig_ctor orig, Player self, AbstractCreature abstractCreature, World world)

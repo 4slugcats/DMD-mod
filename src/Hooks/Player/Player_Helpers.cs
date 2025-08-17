@@ -23,11 +23,13 @@ public static class Player_Helpers
             return;
         }
 
-        gun.AimDir = self.input[0].analogueDir;
+        var aimDir = self.input[0].analogueDir;
+
+        gun.AimDir = Vector2.Lerp(gun.AimDir, aimDir, 0.1f);
 
         if (self.input[0].pckp)
         {
-            gun.TryShoot(self, self.input[0].analogueDir, true);
+            gun.TryShoot(self, aimDir, true);
         }
     }
 }

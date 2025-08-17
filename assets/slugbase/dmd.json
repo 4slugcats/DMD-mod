@@ -1,9 +1,9 @@
 {
     "id": "DMD",
     "name": "Diehard Master-Disaster",
-    "description": "TODO",
+    "description": "'I left home seeking adventure in hostile lands...', that's what this 'seasoned' traveller would tell you.<LINE>But the truth behind their departure is shrouded in mystery: a dark secret, better left in the past.",
     "features": {
-        "expedition_description": "TODO",
+        "expedition_description": "'I left home seeking adventure in hostile lands...', that's what this 'seasoned' traveller would tell you.<LINE>But the truth behind their departure is shrouded in mystery: a dark secret, better left in the past.",
 
         "world_state": ["DMD", "Red", "White"],
         "timeline_after": "Red",
