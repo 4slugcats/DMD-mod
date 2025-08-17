@@ -6,51 +6,51 @@ public class Derringer : Gun
 {
     public Derringer(AbstractPhysicalObject abstractPhysicalObject, World world) : base(abstractPhysicalObject, world)
     {
-        fireSpeed = 1;
-        reloadSpeed = 50;
-        fullClip = 2;
-        damageStat = 0.35f;
-        GunSpriteName = "Derringer"; //does more damage to players
-        gunLength = 20;
-        randomSpreadStat = 0.8f;
-        angleDiff = 40;
+        FireSpeed = 1;
+        ReloadSpeed = 50;
+        FullClip = 2;
+        DamageStat = 0.35f;
+        GunSpriteName = "dmd_deagle"; //does more damage to players
+        GunLength = 20;
+        RandomSpreadStat = 0.8f;
+        PipAngleDiff = 40;
         CheckIfArena(world);
     }
 
-    public override void Shoot(PhysicalObject user, Vector2 fireDir)
+    protected override void Shoot(PhysicalObject user, Vector2 fireDir)
     {
         base.Shoot(user, fireDir);
         if (user is Scavenger)
         {
-            fireDelay = 15;
+            FireDelay = 15;
         }
     }
 
     public override void ShootSound()
     {
-        room.PlaySound(Enums.Sounds.AK47Shoot, bodyChunks[0], false, .38f + Random.value * .03f, 1.1f + Random.value * .2f);
+        room.PlaySound(Enums.Sounds.AKMShoot, bodyChunks[0], false, .38f + Random.value * .03f, 1.1f + Random.value * .2f);
     }
 
-    public override void SummonProjectile(PhysicalObject user, bool boostAccuracy)
+    protected override void SummonProjectile(PhysicalObject user, bool boostAccuracy)
     {
-        var newBullet = new Bullet(user, firstChunk.pos + upDir * 5f, (aimDir.normalized + (Random.insideUnitCircle * randomSpreadStat * (boostAccuracy ? 0.3f : 1f)) * .045f).normalized, damageStat, 4.5f + 2f * damageStat, 15f + 30f * damageStat, false);
+        var newBullet = new Bullet(user, firstChunk.pos + UpDir * 5f, (AimDir.normalized + (Random.insideUnitCircle * RandomSpreadStat * (boostAccuracy ? 0.3f : 1f)) * .045f).normalized, DamageStat, 4.5f + 2f * DamageStat, 15f + 30f * DamageStat, false);
         room.AddObject(newBullet);
         newBullet.Fire();
-        user.bodyChunks[0].vel -= aimDir * 3f;
-        user.bodyChunks[1].vel -= aimDir * 3f;
+        user.bodyChunks[0].vel -= AimDir * 3f;
+        user.bodyChunks[1].vel -= AimDir * 3f;
     }
 
-    public override void ShootEffects()
+    public virtual void ShootEffects()
     {
-        var upDir = Custom.PerpendicularVector(aimDir);
+        var upDir = Custom.PerpendicularVector(AimDir);
         if (upDir.y < 0)
         {
             upDir *= -1f;
         }
-        room.AddObject(new Explosion.ExplosionLight(firstChunk.pos + upDir * 5f + aimDir * 35f, 75f, 1f, 5, Color.white));
+        room.AddObject(new Explosion.ExplosionLight(firstChunk.pos + upDir * 5f + AimDir * 35f, 75f, 1f, 5, Color.white));
         for (var i = 0; i < 3; i++)
         {
-            room.AddObject(new Spark(firstChunk.pos + upDir * 5f + lastAimDir * 25f, aimDir * 50f * Random.value + Custom.RNV() * 1.5f, Color.Lerp(Color.white, Color.yellow, Random.value), null, 3, 8));
+            room.AddObject(new Spark(firstChunk.pos + upDir * 5f + LastAimDir * 25f, AimDir * 50f * Random.value + Custom.RNV() * 1.5f, Color.Lerp(Color.white, Color.yellow, Random.value), null, 3, 8));
         }
     }
 }

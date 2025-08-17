@@ -8,6 +8,6 @@ public static partial class Enums
     {
         _ = DMD;
         _ = Scenes.Slugcat_DMD;
-        _ = Guns.AK47;
+        _ = Guns.AKM;
     }
 }

@@ -30,13 +30,14 @@ public static class PlayerGraphics_Hooks
         // Init Indexes
         graphics.FirstSprite = sLeaser.sprites.Length;
 
-
-        var spriteIndex = graphics.FirstSprite;
-
         // TODO
-
-        graphics.LastSprite = spriteIndex;
-        Array.Resize(ref sLeaser.sprites, spriteIndex);
+        // var spriteIndex = graphics.FirstSprite;
+        //
+        //
+        //
+        // graphics.LastSprite = spriteIndex;
+        // Array.Resize(ref sLeaser.sprites, spriteIndex);
+        graphics.LastSprite = sLeaser.sprites.Length - 1;
 
         self.AddToContainer(sLeaser, rCam, null);
     }
