@@ -45,6 +45,7 @@
         
         "title_card": "dmd_titlecard",
 
-        "select_menu_scene": "Slugcat_DMD"
+        "select_menu_scene": "Slugcat_DMD",
+        "sleep_scene": "Slugcat_DMD_Sleep"
     }
 }
