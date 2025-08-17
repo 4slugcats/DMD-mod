@@ -23,7 +23,7 @@ public class BFG : Gun
         //SoundHelper.PlayCustomSound("AK-47Shoot", bodyChunks[0], .55f + UnityEngine.Random.value * .02f, .9f + UnityEngine.Random.value * .1f);
     }
 
-    public virtual void ShootEffects()
+    protected override void ShootEffects()
     {
         var upDir = Custom.PerpendicularVector(AimDir);
         if (upDir.y < 0)

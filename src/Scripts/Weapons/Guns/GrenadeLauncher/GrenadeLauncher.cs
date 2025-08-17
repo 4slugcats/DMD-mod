@@ -23,7 +23,7 @@ public class GrenadeLauncher : Gun
         //SoundHelper.PlayCustomSound("AK-47Shoot", bodyChunks[0], .55f + UnityEngine.Random.value * .02f, .9f + UnityEngine.Random.value * .1f);
     }
 
-    public virtual void ShootEffects()
+    protected override void ShootEffects()
     {
         var upDir = Custom.PerpendicularVector(AimDir);
         if (upDir.y < 0)
@@ -41,7 +41,7 @@ public class GrenadeLauncher : Gun
     {
         var pipeAPO = new AbstractPhysicalObject(room.world, Enums.Guns.Pipe, null, abstractPhysicalObject.pos, room.world.game.GetNewID());
         pipeAPO.RealizeInRoom();
-        var newPipe = pipeAPO.realizedObject as Pipe;
+        var newPipe = pipeAPO.realizedObject as Grenade;
 
         //dont let pebbels shoot it !!
         newPipe.firstChunk.pos = firstChunk.pos + AimDir * 5;
@@ -61,7 +61,7 @@ public class GrenadeLauncher : Gun
 
     public override void NewRoom(Room newRoom)
     {
-        foreach (Pipe p in RelatedObjects)
+        foreach (Grenade p in RelatedObjects)
         {
             p.Pipe_Explode(null);
         }
@@ -70,7 +70,7 @@ public class GrenadeLauncher : Gun
 
     public override void Destroy()
     {
-        foreach (Pipe p in RelatedObjects)
+        foreach (Grenade p in RelatedObjects)
         {
             p.Pipe_Explode(null);
         }

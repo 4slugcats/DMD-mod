@@ -34,7 +34,7 @@ public class Minigun : Gun
         user.bodyChunks[1].vel -= AimDir * 2f;
     }
 
-    public virtual void ShootEffects()
+    protected override void ShootEffects()
     {
         if (shootswap)
         {

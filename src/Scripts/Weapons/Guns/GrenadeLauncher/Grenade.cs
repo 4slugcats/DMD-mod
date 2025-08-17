@@ -4,9 +4,9 @@ using Smoke;
 
 namespace DMD;
 
-class Pipe : ScavengerBomb
+class Grenade : ScavengerBomb
 {
-    public Pipe(AbstractPhysicalObject abstractPhysicalObject, World world) : base(abstractPhysicalObject, world)
+    public Grenade(AbstractPhysicalObject abstractPhysicalObject, World world) : base(abstractPhysicalObject, world)
     {
         bounce = .3f;
         gravity = .8f;

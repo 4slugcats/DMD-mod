@@ -37,7 +37,7 @@ public class Shotgun : Gun
         user.bodyChunks[1].vel -= AimDir * 3f;
     }
 
-    public virtual void ShootEffects()
+    protected override void ShootEffects()
     {
         var upDir = Custom.PerpendicularVector(AimDir);
         if (upDir.y < 0)

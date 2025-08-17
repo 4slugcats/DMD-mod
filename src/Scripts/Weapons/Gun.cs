@@ -281,6 +281,8 @@ public abstract class Gun : Weapon
         }
 
         ShootSound();
+        ShootEffects();
+
         SummonProjectile(user, boostAccuracy);
 
         room.AddObject(new Spark(firstChunk.pos + upDir * 5f - LastAimDir * 5f, upDir * 8f + Random.insideUnitCircle * 3f, Color.yellow, null, 60, 120));
@@ -290,6 +292,8 @@ public abstract class Gun : Weapon
             FireDelay = 20;
         }
     }
+
+    protected abstract void ShootEffects();
 
     public void Reload(bool smart)
     {
