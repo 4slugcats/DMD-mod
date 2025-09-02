@@ -26,6 +26,73 @@
     </Target>
 
     <ItemGroup>
+        <Reference Include="PUBLIC-Assembly-CSharp">
+            <HintPath>lib\BepInEx\utils\PUBLIC-Assembly-CSharp.dll</HintPath>
+            <Private>False</Private>
+        </Reference>
+        <Reference Include="HOOKS-Assembly-CSharp">
+            <HintPath>lib\BepInEx\plugins\HOOKS-Assembly-CSharp.dll</HintPath>
+            <Private>False</Private>
+        </Reference>
+        <Reference Include="BepInEx">
+            <HintPath>lib\BepInEx\core\BepInEx.dll</HintPath>
+            <Private>False</Private>
+        </Reference>
+        <Reference Include="Mono.Cecil">
+            <HintPath>lib\Managed\Mono.Cecil.dll</HintPath>
+            <Private>False</Private>
+        </Reference>
+        <Reference Include="MonoMod">
+            <HintPath>lib\BepInEx\core\MonoMod.dll</HintPath>
+            <Private>False</Private>
+        </Reference>
+        <Reference Include="MonoMod.RuntimeDetour">
+            <HintPath>lib\Managed\MonoMod.RuntimeDetour.dll</HintPath>
+            <Private>False</Private>
+        </Reference>
+        <Reference Include="MonoMod.Utils">
+            <HintPath>lib\Managed\MonoMod.Utils.dll</HintPath>
+            <Private>False</Private>
+        </Reference>
+        <Reference Include="Newtonsoft.Json">
+            <HintPath>lib\Newtonsoft.Json.dll</HintPath>
+            <Private>True</Private>
+        </Reference>
+        <Reference Include="Unity.Mathematics">
+            <HintPath>lib\Managed\Unity.Mathematics.dll</HintPath>
+            <Private>False</Private>
+        </Reference>
+        <Reference Include="UnityEngine">
+            <HintPath>lib\Managed\UnityEngine.dll</HintPath>
+            <Private>False</Private>
+        </Reference>
+        <Reference Include="UnityEngine.AudioModule">
+            <HintPath>lib\Managed\UnityEngine.AudioModule.dll</HintPath>
+            <Private>False</Private>
+        </Reference>
+        <Reference Include="UnityEngine.CoreModule">
+            <HintPath>lib\Managed\UnityEngine.CoreModule.dll</HintPath>
+            <Private>False</Private>
+        </Reference>
+        <Reference Include="UnityEngine.ImageConversionModule">
+            <HintPath>lib\Managed\UnityEngine.ImageConversionModule.dll</HintPath>
+            <Private>False</Private>
+        </Reference>
+        <Reference Include="UnityEngine.InputLegacyModule">
+            <HintPath>lib\Managed\UnityEngine.InputLegacyModule.dll</HintPath>
+            <Private>False</Private>
+        </Reference>
+        <Reference Include="SlugBase">
+            <HintPath>lib\SlugBase.dll</HintPath>
+            <Private>False</Private>
+        </Reference>
+        <Reference Include="ImprovedInput">
+            <HintPath>lib\ImprovedInput.dll</HintPath>
+            <Private>False</Private>
+        </Reference>
+    </ItemGroup>
+
+    <ItemGroup>
         <Compile Remove="lib\**" />
     </ItemGroup>
 
@@ -40,47 +107,5 @@
     <ItemGroup>
       <Folder Include="Hooks\Misc\" />
       <Folder Include="Scripts\RoomScripts\" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <Reference Include="BepInEx">
-        <HintPath>..\Lib\BepInEx.dll</HintPath>
-      </Reference>
-      <Reference Include="HOOKS-Assembly-CSharp">
-        <HintPath>..\Lib\HOOKS-Assembly-CSharp.dll</HintPath>
-      </Reference>
-      <Reference Include="ImprovedInput">
-        <HintPath>..\Lib\ImprovedInput.dll</HintPath>
-      </Reference>
-      <Reference Include="Mono.Cecil">
-        <HintPath>..\Lib\Mono.Cecil.dll</HintPath>
-      </Reference>
-      <Reference Include="MonoMod.RuntimeDetour">
-        <HintPath>..\Lib\MonoMod.RuntimeDetour.dll</HintPath>
-      </Reference>
-      <Reference Include="MonoMod.Utils">
-        <HintPath>G:\Steam Games\steamapps\common\Rain World\RainWorld_Data\Managed\MonoMod.Utils.dll</HintPath>
-      </Reference>
-      <Reference Include="Newtonsoft.Json">
-        <HintPath>..\Lib\Newtonsoft.Json.dll</HintPath>
-      </Reference>
-      <Reference Include="Assembly-CSharp">
-        <HintPath>..\Lib\PUBLIC-Assembly-CSharp.dll</HintPath>
-      </Reference>
-      <Reference Include="SlugBase">
-        <HintPath>..\Lib\SlugBase.dll</HintPath>
-      </Reference>
-      <Reference Include="Unity.Mathematics">
-        <HintPath>..\Lib\Unity.Mathematics.dll</HintPath>
-      </Reference>
-      <Reference Include="UnityEngine">
-        <HintPath>..\Lib\UnityEngine.dll</HintPath>
-      </Reference>
-      <Reference Include="UnityEngine.CoreModule">
-        <HintPath>..\Lib\UnityEngine.CoreModule.dll</HintPath>
-      </Reference>
-      <Reference Include="UnityEngine.ImageConversionModule">
-        <HintPath>..\Lib\UnityEngine.ImageConversionModule.dll</HintPath>
-      </Reference>
     </ItemGroup>
 </Project>
