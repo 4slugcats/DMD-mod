@@ -103,17 +103,9 @@ public static class Input_Helpers
     {
         if (player.IsKeyboardPlayer())
         {
-            return Futile.mousePosition;
-        }
+            var mouseRoomPos = (Vector2)Futile.mousePosition + player.abstractCreature.world.game.cameras.First().pos;
 
-        return player.input[0].analogueDir;
-    }
-
-    public static Vector2 GetAimPos(this Player player)
-    {
-        if (player.IsKeyboardPlayer() && IsMouseActive)
-        {
-            return Futile.mousePosition;
+            return Custom.DirVec(player.firstChunk.pos, mouseRoomPos);
         }
 
         return player.input[0].analogueDir;

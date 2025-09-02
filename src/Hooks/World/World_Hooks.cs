@@ -6,6 +6,10 @@ public static class World_Hooks
     {
         On.AbstractPhysicalObject.Realize += AbstractPhysicalObjectOnRealize;
         On.ItemSymbol.SpriteNameForItem += ItemSymbolOnSpriteNameForItem;
+
+        On.HUD.HUD.InitSinglePlayerHud += HUD_InitSinglePlayerHud;
+        On.HUD.HUD.InitSafariHud += HUD_InitSafariHud;
+        On.ArenaGameSession.AddHUD += ArenaGameSession_AddHUD;
     }
 
     private static string ItemSymbolOnSpriteNameForItem(On.ItemSymbol.orig_SpriteNameForItem orig, AbstractPhysicalObject.AbstractObjectType itemType, int intData)
@@ -70,7 +74,36 @@ public static class World_Hooks
             {
                 self.realizedObject = new Shotgun(self, self.world);
             }
+            else if (self.type == Enums.Guns.Minigun)
+            {
+                self.realizedObject = new Minigun(self, self.world);
+            }
         }
         orig(self);
     }
+
+    // Add Inventory HUD
+    private static void ArenaGameSession_AddHUD(On.ArenaGameSession.orig_AddHUD orig, ArenaGameSession self)
+    {
+        orig(self);
+
+        var hud = self.game.cameras[0].hud;
+
+        hud.AddPart(new InventoryHUD(hud, hud.fContainers[1]));
+    }
+
+    private static void HUD_InitSafariHud(On.HUD.HUD.orig_InitSafariHud orig, HUD.HUD self, RoomCamera cam)
+    {
+        orig(self, cam);
+
+        self.AddPart(new InventoryHUD(self, self.fContainers[1]));
+    }
+
+    private static void HUD_InitSinglePlayerHud(On.HUD.HUD.orig_InitSinglePlayerHud orig, HUD.HUD self, RoomCamera cam)
+    {
+        orig(self, cam);
+
+        self.AddPart(new InventoryHUD(self, self.fContainers[1]));
+    }
+
 }

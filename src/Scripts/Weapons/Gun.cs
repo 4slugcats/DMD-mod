@@ -25,6 +25,7 @@ public abstract class Gun : Weapon
     protected int PipAngleDiff { get; set; } = 24;
 
     // Stats
+    public virtual bool OneHanded => false;
     protected string GunSpriteName { get; set; } = "";
 
     protected int GunLength { get; set; }
@@ -89,15 +90,10 @@ public abstract class Gun : Weapon
 
     public override void Update(bool eu)
     {
-        // TODO
-        // if (firstupdate && owner is Player p && HHUtils.IsMe(p))
-        // {
-        //     Clip = HHUtils.inventories.GetOrCreateValue(p).ownedBullets[TypeToIndex(abstractPhysicalObject.type) % 4];
-        // }
-
         JustShot = false;
         AimDir.Normalize();
         LastAimDir = AimDir;
+
         if (AutoFlip)
         {
             if (IsFlipped && AimDir.x < -.5)
@@ -109,6 +105,7 @@ public abstract class Gun : Weapon
                 IsFlipped = true;
             }
         }
+
         if (ReloadTime > 0)
         {
             if (ReloadTime == ReloadSpeed - 7)
@@ -123,16 +120,12 @@ public abstract class Gun : Weapon
             {
                 room.PlaySound(SoundID.Spear_Bounce_Off_Creauture_Shell, firstChunk.pos + AimDir * 25f, 0.8f, 1.4f);
                 Clip = FullClip;
-
-                // TODO
-                // if (HHUtils.IsMe(owner))
-                // {
-                //     HHUtils.inventories.GetOrCreateValue(owner as Player).ownedClips -= clipCost;
-                // }
             }
+
             ReloadTime--;
 
         }
+
         if (FireDelay > 0)
         {
             FireDelay--;
@@ -150,6 +143,7 @@ public abstract class Gun : Weapon
                 }
             }
         }
+
         if (Smolder is not null)
         {
             Smolder.pos = firstChunk.pos + UpDir * 5f + AimDir * (GunLength / 2f);
@@ -168,39 +162,26 @@ public abstract class Gun : Weapon
 
     public override void Grabbed(Creature.Grasp grasp)
     {
-        //Debug.Log("gun grabbed");
         if (grasp?.grabber == null)
         {
             return;
         }
 
-        //Debug.Log("grabber isnt null");
         Owner = grasp.grabber;
-        //Debug.Log("grabber is " + owner.GetType().Name);
         ChangeMode(Mode.Carried);
-        base.Grabbed(grasp);
 
-        // if (HHUtils.IsMe(owner) && TypeToIndex(abstractPhysicalObject.type) > 3 && !HHUtils.inventories.GetOrCreateValue(owner as Player).ownedGuns[TypeToIndex(abstractPhysicalObject.type) - 4])
-        // {
-        //     HHUtils.inventories.GetOrCreateValue(owner as Player).Upgrade(this);
-        // }
+        base.Grabbed(grasp);
     }
 
 
-    public void TryShoot(PhysicalObject user, Vector2 fireDir, bool wantsandcanreload)
+    public void TryShoot(PhysicalObject user, Vector2 fireDir)
     {
-        // if(user is Player p && HHUtils.IsMe(p) && HHUtils.inventories.GetOrCreateValue(p).active)
-        // {
-        //     return;
-        // }
-
         Vector2 targetCoord;
+        BodyChunk? recordChunk = null;
+
         var right = fireDir.x > 0;
         var pos = firstChunk.pos;
         var recordDist = float.PositiveInfinity;
-        BodyChunk? recordChunk = null;
-
-        //Debug.Log("values set");
 
         foreach (var testObject in room.physicalObjects[1].Where(x => x is Creature c && !(c == user || c.dead))) //1 represents the main collision layer
         {
@@ -229,8 +210,10 @@ public abstract class Gun : Weapon
         {
             SmokeFromShot = false;
             FireDelay = FireSpeed;
-            Reload(wantsandcanreload);
+
+            Reload();
         }
+
         if (FireDelay == 0 && Clip > 0)
         {
             Shoot(user, targetCoord);
@@ -284,21 +267,12 @@ public abstract class Gun : Weapon
 
     protected virtual void ShootSound() { }
 
-    public void Reload(bool smart)
+    public void Reload()
     {
-        var costsatisfied = false;
+        // TODO: implement ammo system
+        var canReload = true;
 
-        // if (Owner is Player p && smart)
-        // {
-        //     Debug.Log(ChugBaseHunter.inventories[p] != null);
-        //      if (HHUtils.inventories.GetOrCreateValue(p).CanFeedGun(this))
-        //      {
-        //          Debug.Log(HHUtils.inventories.GetOrCreateValue(p) != null);
-        //          costsatisfied = true;
-        //      }
-        // }
-
-        if ((smart && costsatisfied) || Owner is Scavenger || Owner == null)
+        if ((canReload) || Owner is Scavenger || Owner == null)
         {
             ReloadTime = ReloadSpeed;
         }
@@ -332,10 +306,10 @@ public abstract class Gun : Weapon
 
         for (var i = 1; i <= FullClip; i++)
         {
-            sLeaser.sprites[i] = new FSprite("pixel")
+            sLeaser.sprites[i] = new FSprite("JetFishEyeA")
             {
-                scale = 4,
-                isVisible = false
+                scale = 1.0f,
+                isVisible = false,
             };
         }
         FirstPipAngle = 0 + (PipAngleDiff / 2 * (FullClip - 1));
@@ -343,20 +317,19 @@ public abstract class Gun : Weapon
         AddToContainer(sLeaser, rCam, null!);
     }
 
-    public override void AddToContainer(RoomCamera.SpriteLeaser sLeaser, RoomCamera rCam, FContainer newContatiner)
+    public override void AddToContainer(RoomCamera.SpriteLeaser sLeaser, RoomCamera rCam, FContainer? newContatiner)
     {
-        if (newContatiner == null)
-        {
-            newContatiner = rCam.ReturnFContainer("Items");
-        }
-        var HUDcont = rCam.ReturnFContainer("HUD");
+        newContatiner ??= rCam.ReturnFContainer("Items");
+
+        var hudContainer = rCam.ReturnFContainer("HUD");
 
         sLeaser.sprites[0].RemoveFromContainer();
         newContatiner.AddChild(sLeaser.sprites[0]);
+
         for (var i = 1; i < sLeaser.sprites.Length; i++)
         {
             sLeaser.sprites[i].RemoveFromContainer();
-            HUDcont.AddChild(sLeaser.sprites[i]);
+            hudContainer.AddChild(sLeaser.sprites[i]);
         }
     }
 
@@ -364,23 +337,22 @@ public abstract class Gun : Weapon
     {
         // TODO
         //sLeaser.sprites[0].element = Futile.atlasManager.GetElementWithName(GunSpriteName + (Clip == 0 ? "NoMag" : ""));
+
         sLeaser.sprites[0].x = Mathf.Lerp(firstChunk.lastPos.x, firstChunk.pos.x, timeStacker) - camPos.x;
         sLeaser.sprites[0].y = Mathf.Lerp(firstChunk.lastPos.y, firstChunk.pos.y, timeStacker) - camPos.y;
-        sLeaser.sprites[0].rotation = Custom.AimFromOneVectorToAnother(new Vector2(0f, 0f), Vector3.Slerp(LastAimDir, AimDir, timeStacker)) - 90f;
+
         if (mode == Mode.OnBack)
         {
-            Vector2 v = Vector3.Slerp(lastRotation, rotation, timeStacker);
-            var perpV = Custom.PerpendicularVector(v);
-            sLeaser.sprites[0].rotation = Custom.AimFromOneVectorToAnother(new Vector2(0f, 0f), perpV);
             sLeaser.sprites[0].scaleY = -1f;
         }
         else
         {
+            sLeaser.sprites[0].rotation = Custom.AimFromOneVectorToAnother(new Vector2(0f, 0f), Vector3.Slerp(LastAimDir, AimDir, timeStacker)) - 90f;
             sLeaser.sprites[0].scaleY = (IsFlipped ? 1f : -1f);
         }
 
 
-        if (Owner != null && Owner is Player p && mode == Mode.Carried)
+        if (Owner is Player && mode == Mode.Carried)
         {
             for (var i = 1; i <= FullClip; i++)
             {

@@ -81,14 +81,13 @@ public class InventorySymbol(InventoryHUD owner, Vector2 pos)
 
         ItemSymbol.shadowSprite1.element = Futile.atlasManager.GetElementWithName("dmd_hudshadow");
         ItemSymbol.shadowSprite2.element = Futile.atlasManager.GetElementWithName("dmd_hudshadow");
-        //ItemSymbol.symbolSprite.element = Futile.atlasManager.GetElementWithName("dmd_hand");
 
         ItemSymbol.shadowSprite1.SetPosition(ItemSymbol.symbolSprite.GetPosition());
         ItemSymbol.shadowSprite2.SetPosition(ItemSymbol.symbolSprite.GetPosition());
 
-        ItemSymbol.shadowSprite1.scale *= 0.12f;
-        ItemSymbol.shadowSprite2.scale *= 0.2f;
-        ItemSymbol.symbolSprite.scale *= 0.1f;
+        ItemSymbol.shadowSprite1.scale *= 0.15f;
+        ItemSymbol.shadowSprite2.scale *= 0.4f;
+        ItemSymbol.symbolSprite.scale *= 0.9f;
 
         ItemSymbol.shadowSprite1.color = Color.white;
         ItemSymbol.shadowSprite2.color = Color.black;

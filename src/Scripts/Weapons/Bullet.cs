@@ -63,11 +63,14 @@ public class Bullet : UpdatableAndDeletable, IDrawable
         var maxPos = hitPos;
         hitPos = SharedPhysics.ExactTerrainRayTracePos(room, startPos, hitPos) ?? maxPos;
         var collisionResultLayer0 = SharedPhysics.TraceProjectileAgainstBodyChunks(null, room, startPos, ref hitPos, 0.1f, 0, parent, false);
+
         if (collisionResultLayer0.hitSomething && collisionResultLayer0.obj is Overseer)
         {
-            (collisionResultLayer0.obj as Overseer).Violence(parent.firstChunk, direction * force + Vector2.up * 0.2f * force, collisionResultLayer0.chunk, collisionResultLayer0.onAppendagePos, Creature.DamageType.Stab, damage * 10f, stun);
+            ((Overseer)collisionResultLayer0.obj).Violence(parent.firstChunk, direction * force + Vector2.up * 0.2f * force, collisionResultLayer0.chunk, collisionResultLayer0.onAppendagePos, Creature.DamageType.Stab, damage * 10f, stun);
         }
+
         var collisionResult = SharedPhysics.TraceProjectileAgainstBodyChunks(null, room, startPos, ref hitPos, 0.1f, 1, parent, true);
+
         if (collisionResult.hitSomething)
         {
             hitPos = collisionResult.collisionPoint;
@@ -125,9 +128,9 @@ public class Bullet : UpdatableAndDeletable, IDrawable
 
         if (collision.obj is Creature critter)
         {
-            if (parent != null && parent is Creature)
+            if (parent != null && parent is Creature creature)
             {
-                critter.SetKillTag((parent as Creature).abstractCreature);
+                critter.SetKillTag(creature.abstractCreature);
             }
             if (loud)
             {
@@ -181,12 +184,16 @@ public class Bullet : UpdatableAndDeletable, IDrawable
     public void InitiateSprites(RoomCamera.SpriteLeaser sLeaser, RoomCamera rCam)
     {
         sLeaser.sprites = new FSprite[2];
-        sLeaser.sprites[0] = new FSprite("Futile_White", true);
-        sLeaser.sprites[0].scaleX = 0.125f;
-        sLeaser.sprites[0].anchorY = 0f;
-        sLeaser.sprites[0].shader = rCam.room.game.rainWorld.Shaders["BulletRain"];
-        sLeaser.sprites[1] = new FSprite("RainSplash", true);
-        AddToContainer(sLeaser, rCam, null);
+        sLeaser.sprites[0] = new FSprite("Futile_White")
+        {
+            scaleX = 0.125f,
+            anchorY = 0f,
+            shader = rCam.room.game.rainWorld.Shaders["BulletRain"],
+        };
+
+        sLeaser.sprites[1] = new FSprite("RainSplash");
+
+        AddToContainer(sLeaser, rCam, null!);
     }
 
     public void DrawSprites(RoomCamera.SpriteLeaser sLeaser, RoomCamera rCam, float timeStacker, Vector2 camPos)
@@ -214,9 +221,7 @@ public class Bullet : UpdatableAndDeletable, IDrawable
         }
     }
 
-    public void ApplyPalette(RoomCamera.SpriteLeaser sLeaser, RoomCamera rCam, RoomPalette palette)
-    {
-    }
+    public void ApplyPalette(RoomCamera.SpriteLeaser sLeaser, RoomCamera rCam, RoomPalette palette) { }
 
     public void AddToContainer(RoomCamera.SpriteLeaser sLeaser, RoomCamera rCam, FContainer newContatiner)
     {

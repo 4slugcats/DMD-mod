@@ -26,11 +26,14 @@ public class BFG : Gun
     protected override void ShootEffects()
     {
         var upDir = Custom.PerpendicularVector(AimDir);
+
         if (upDir.y < 0)
         {
             upDir *= -1f;
         }
+
         room.AddObject(new Explosion.ExplosionLight(firstChunk.pos + upDir * 5f + AimDir * 35f, 100f, 1f, 5, Color.red));
+
         for (var i = 0; i < 3; i++)
         {
             room.AddObject(new Spark(firstChunk.pos + upDir * 5f + LastAimDir * 25f, AimDir * 50f * Random.value + Custom.RNV() * 1.5f, Color.Lerp(Color.white, Color.yellow, Random.value), null, 3, 8));
@@ -41,7 +44,8 @@ public class BFG : Gun
     {
         var pipeAPO = new AbstractPhysicalObject(room.world, Enums.Guns.BFGOrb, null, abstractPhysicalObject.pos, room.world.game.GetNewID());
         pipeAPO.RealizeInRoom();
-        var orb = pipeAPO.realizedObject as BFGOrb;
+
+        var orb = (BFGOrb)pipeAPO.realizedObject;
 
         //dont let pebbels shoot it !!
         orb.firstChunk.pos = firstChunk.pos + AimDir * 5;

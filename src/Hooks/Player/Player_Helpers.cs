@@ -1,4 +1,6 @@
-﻿namespace DMD;
+﻿using RWCustom;
+
+namespace DMD;
 
 public static class Player_Helpers
 {
@@ -14,7 +16,13 @@ public static class Player_Helpers
 
     public static void InitializeDMD(Player self, PlayerModule playerModule)
     {
-        self.abstractCreature.world.game.UnlockGun(Enums.Guns.AKM);
+        var game = self.abstractCreature.world.game;
+
+        game.UnlockGun(Enums.Guns.AKM);
+        game.UnlockGun(Enums.Guns.Shotgun);
+        game.UnlockGun(Enums.Guns.Minigun);
+        // game.UnlockGun(Enums.Guns.RocketLauncher);
+        // game.UnlockGun(Enums.Guns.BFG);
     }
 
     public static void UpdateDMD(Player self, PlayerModule playerModule)
@@ -71,6 +79,9 @@ public static class Player_Helpers
                 playerModule.WasSwapped = false;
             }
         }
+
+        playerModule.WasSwapLeftInput = swapLeftInput;
+        playerModule.WasSwapRightInput = swapRightInput;
     }
 
     private static void UpdateHUD(PlayerModule playerModule)
@@ -89,18 +100,18 @@ public static class Player_Helpers
 
     private static void UpdateGun(Player player, PlayerModule playerModule, AbstractPhysicalObject abstractGun)
     {
-        if (abstractGun != playerModule.ActiveGun)
+        if (abstractGun.type == Enums.Guns.None)
         {
-            abstractGun.world = player.abstractCreature.world;
-            abstractGun.pos = player.abstractCreature.pos;
+            return;
+        }
 
-            player.abstractCreature.Room.AddEntity(abstractGun);
-            abstractGun.RealizeInRoom();
+        if (abstractGun == playerModule.ActiveGun)
+        {
+            TryRealizeGun(player, abstractGun);
         }
         else
         {
-            abstractGun.Abstractize(player.abstractCreature.pos);
-            abstractGun.Room?.RemoveEntity(abstractGun);
+            TryAbstractGun(player, abstractGun);
         }
 
         if (abstractGun.realizedObject is not Gun gun)
@@ -108,21 +119,75 @@ public static class Player_Helpers
             return;
         }
 
-        if (player.IsShootInput())
+        if (!gun.OneHanded && player.grasps.Any(x => x is not null && x.grabbed != gun))
         {
+            gun.AllGraspsLetGoOfThisObject(true);
+            gun.ChangeOverlap(false);
+
+            gun.mode = Weapon.Mode.OnBack;
+            gun.firstChunk.pos = player.firstChunk.pos;
+
+            gun.setRotation = Vector3.Slerp(gun.rotation, Custom.rotateVectorDeg(Vector2.up, player.flipDirection * 20.0f), 0.2f);
+            gun.IsFlipped = player.flipDirection == -1;
+
+            Plugin.Logger.LogWarning(gun.rotation);
+
+            if (player.firstChunk.vel.x > 1.0f)
+            {
+                gun.setRotation = Custom.rotateVectorDeg(gun.rotation, Random.Range(0.5f, 3.0f));
+            }
+        }
+        else
+        {
+            if (!gun.grabbedBy.Any())
+            {
+                player.SlugcatGrab(gun, player.FreeHand());
+            }
+
+            gun.ChangeOverlap(true);
+
             var aimDir = player.GetAimDir();
 
-            gun.TryShoot(player, aimDir, false);
+            gun.AimDir = aimDir;
+            gun.IsFlipped = aimDir.x > 0;
+
+            if (player.IsShootInput())
+            {
+                gun.TryShoot(player, aimDir);
+            }
         }
+
     }
 
-    private static void SelectPreviousGun(this Player player, PlayerModule playerModule)
+    private static void TryAbstractGun(Player player, AbstractPhysicalObject abstractGun)
     {
-        if (playerModule.GunInventory.Count == 0)
+        if (abstractGun.realizedObject is null)
         {
             return;
         }
 
+        abstractGun.realizedObject.AllGraspsLetGoOfThisObject(true);
+
+        abstractGun.Abstractize(player.abstractCreature.pos);
+        abstractGun.Room?.RemoveEntity(abstractGun);
+    }
+
+    private static void TryRealizeGun(Player player, AbstractPhysicalObject abstractGun)
+    {
+        if (abstractGun.realizedObject is not null)
+        {
+            return;
+        }
+
+        abstractGun.world = player.abstractCreature.world;
+        abstractGun.pos = player.abstractCreature.pos;
+
+        player.abstractCreature.Room.AddEntity(abstractGun);
+        abstractGun.RealizeInRoom();
+    }
+
+    private static void SelectPreviousGun(this Player player, PlayerModule playerModule)
+    {
         var targetIndex = playerModule.ActiveGunIndex - 1;
 
         if (targetIndex < 0)
@@ -130,16 +195,11 @@ public static class Player_Helpers
             targetIndex = playerModule.GunInventory.Count - 1;
         }
 
-        player.SetActiveGun(playerModule, targetIndex, true);
+        player.SetActiveGun(playerModule, targetIndex);
     }
 
     private static void SelectNextGun(this Player player, PlayerModule playerModule)
     {
-        if (playerModule.GunInventory.Count == 0)
-        {
-            return;
-        }
-
         var targetIndex = playerModule.ActiveGunIndex + 1;
 
         if (targetIndex >= playerModule.GunInventory.Count)

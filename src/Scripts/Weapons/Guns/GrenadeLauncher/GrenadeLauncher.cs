@@ -41,7 +41,7 @@ public class GrenadeLauncher : Gun
     {
         var pipeAPO = new AbstractPhysicalObject(room.world, Enums.Guns.Pipe, null, abstractPhysicalObject.pos, room.world.game.GetNewID());
         pipeAPO.RealizeInRoom();
-        var newPipe = pipeAPO.realizedObject as Grenade;
+        var newPipe = (Grenade)pipeAPO.realizedObject;
 
         //dont let pebbels shoot it !!
         newPipe.firstChunk.pos = firstChunk.pos + AimDir * 5;
@@ -53,7 +53,7 @@ public class GrenadeLauncher : Gun
         }
         else
         {
-            newPipe.firstChunk.vel = AimDir * 8f + new Vector2((user as Player).ThrowDirection * 6, 0);
+            newPipe.firstChunk.vel = AimDir * 8f + new Vector2(((Player)user).ThrowDirection * 6, 0);
         }
 
         RelatedObjects.Add(newPipe);
@@ -61,19 +61,26 @@ public class GrenadeLauncher : Gun
 
     public override void NewRoom(Room newRoom)
     {
-        foreach (Grenade p in RelatedObjects)
-        {
-            p.Pipe_Explode(null);
-        }
+        ExplodeAll();
+
         base.NewRoom(newRoom);
     }
 
     public override void Destroy()
     {
-        foreach (Grenade p in RelatedObjects)
-        {
-            p.Pipe_Explode(null);
-        }
+        ExplodeAll();
+
         base.Destroy();
     }
+
+    private void ExplodeAll()
+    {
+        foreach (var obj in RelatedObjects)
+        {
+            var grenade = (Grenade)obj;
+
+            grenade.Pipe_Explode(null!);
+        }
+    }
+
 }

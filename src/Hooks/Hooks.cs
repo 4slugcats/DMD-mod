@@ -1,7 +1,5 @@
 ﻿namespace DMD;
-using Mono.Cecil.Cil;
-using MonoMod.Cil;
-using MonoMod.RuntimeDetour.HookGen;
+
 using System;
 
 public static class Hooks

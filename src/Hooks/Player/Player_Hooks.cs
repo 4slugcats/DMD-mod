@@ -36,6 +36,11 @@ public static class Player_Hooks
         }
 
         self.input[0] = input;
+
+        if (self.grasps.First()?.grabbed is Gun)
+        {
+            self.input[0].thrw = false;
+        }
     }
 
     private static void PlayerOnctor(On.Player.orig_ctor orig, Player self, AbstractCreature abstractCreature, World world)

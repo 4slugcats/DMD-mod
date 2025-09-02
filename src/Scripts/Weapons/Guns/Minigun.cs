@@ -4,6 +4,8 @@ namespace DMD;
 
 public class Minigun : Gun
 {
+    private bool ShootSwap { get; set; }
+
     public Minigun(AbstractPhysicalObject abstractPhysicalObject, World world) : base(abstractPhysicalObject, world)
     {
         FireSpeed = 3;
@@ -11,18 +13,18 @@ public class Minigun : Gun
         FullClip = 50;
         DamageStat = 0.2f;
         Automatic = true;
-        GunSpriteName = "dmd_minigun1";
+        GunSpriteName = "dmd_minigun";
         GunLength = 120;
         RandomSpreadStat = 1.4f;
         PipAngleDiff = 3;
         ClipCost = 1;
         CheckIfArena(world);
     }
-    bool shootswap = false;
+
 
     protected override void ShootSound()
     {
-        room.PlaySound(Enums.Sounds.AKMShoot, bodyChunks[0], false, .4f + Random.value * .1f, 1.15f + Random.value * .2f);
+        room.PlaySound(SoundID.Bomb_Explode, bodyChunks[0], false, .8f + Random.value * .1f, 1.15f + Random.value * .2f);
     }
 
     protected override void SummonProjectile(PhysicalObject user, bool boostAccuracy)
@@ -36,7 +38,7 @@ public class Minigun : Gun
 
     protected override void ShootEffects()
     {
-        if (shootswap)
+        if (ShootSwap)
         {
             FireDelay += 10;
         }
@@ -56,8 +58,10 @@ public class Minigun : Gun
     public override void InitiateSprites(RoomCamera.SpriteLeaser sLeaser, RoomCamera rCam)
     {
         sLeaser.sprites = new FSprite[1 + FullClip];
-        sLeaser.sprites[0] = new FSprite(GunSpriteName + "1", true);
-        sLeaser.sprites[0].anchorY = 0.5f;
+        sLeaser.sprites[0] = new FSprite(GunSpriteName + "1")
+        {
+            anchorY = 0.5f,
+        };
 
         for (var i = 1; i <= FullClip; i++)
         {
@@ -69,54 +73,13 @@ public class Minigun : Gun
         }
         FirstPipAngle = 0 + (PipAngleDiff / 2 * (FullClip - 1));
 
-        AddToContainer(sLeaser, rCam, null);
+        AddToContainer(sLeaser, rCam, null!);
     }
 
     public override void DrawSprites(RoomCamera.SpriteLeaser sLeaser, RoomCamera rCam, float timeStacker, Vector2 camPos)
     {
-        // TODO
-        //sLeaser.sprites[0].element = Futile.atlasManager.GetElementWithName(GunSpriteName + (Clip == 0 ? "empty" : shootswap ? "1" : "0"));
-        sLeaser.sprites[0].x = Mathf.Lerp(firstChunk.lastPos.x, firstChunk.pos.x, timeStacker) - camPos.x;
-        sLeaser.sprites[0].y = Mathf.Lerp(firstChunk.lastPos.y, firstChunk.pos.y, timeStacker) - camPos.y;
-        sLeaser.sprites[0].rotation = Custom.AimFromOneVectorToAnother(new Vector2(0f, 0f), Vector3.Slerp(LastAimDir, AimDir, timeStacker)) - 90f;
-        if (mode == Mode.OnBack)
-        {
-            Vector2 v = Vector3.Slerp(lastRotation, rotation, timeStacker);
-            var perpV = Custom.PerpendicularVector(v);
-            sLeaser.sprites[0].rotation = Custom.AimFromOneVectorToAnother(new Vector2(0f, 0f), perpV);
-            sLeaser.sprites[0].scaleY = -1f;
-        }
-        else
-        {
-            sLeaser.sprites[0].scaleY = (IsFlipped ? 1f : -1f);
-        }
+        base.DrawSprites(sLeaser, rCam, timeStacker, camPos);
 
-
-        if (Owner != null && Owner is Player p && mode == Mode.Carried)
-        {
-            for (var i = 1; i <= FullClip; i++)
-            {
-                sLeaser.sprites[i].isVisible = i <= Clip; // TODO
-                sLeaser.sprites[i].SetPosition(Custom.DegToVec((FirstPipAngle - (PipAngleDiff * (i - 1)))) * 30 + Owner.firstChunk.pos + new Vector2(0, 20) - camPos);
-            }
-        }
-        else
-        {
-            for (var i = 1; i <= FullClip; i++)
-            {
-                sLeaser.sprites[i].isVisible = false;
-            }
-        }
-
-        for (var i = 1; i <= FullClip; i++)
-        {
-            sLeaser.sprites[i].alpha = OwnerAge / 20f;
-        }
-
-
-        if (slatedForDeletetion || room != rCam.room)
-        {
-            sLeaser.CleanSpritesAndRemove();
-        }
+        sLeaser.sprites[0].element = Futile.atlasManager.GetElementWithName(GunSpriteName + (ShootSwap ? "1" : "0"));
     }
 }

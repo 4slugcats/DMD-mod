@@ -104,7 +104,7 @@ public class InventoryHUD(HUD.HUD hud, FContainer fContainer) : HudPart(hud)
                 var invPos = new Vector2(origin.x + Mathf.Cos(angle) * radius, origin.y + Mathf.Sin(angle) * radius);
 
                 symbol.Pos = Custom.Dist(symbol.Pos, invPos) > 300.0f ? invPos : Vector2.Lerp(symbol.Pos, invPos, lerpFac);
-                symbol.Scale = isActive ? 2.0f : 0.8f;
+                symbol.Scale = isActive ? 1.2f : 0.8f;
             }
 
             circle.SetPosition(Custom.Dist(circle.GetPosition(), truePos) > 300.0f ? truePos : Vector2.Lerp(circle.GetPosition(), truePos, lerpFac));

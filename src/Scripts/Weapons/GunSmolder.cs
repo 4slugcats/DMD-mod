@@ -5,11 +5,11 @@ namespace DMD;
 
 public class GunSmolder : PositionedSmokeEmitter
 {
-    public BodyChunk chunk;
+    public BodyChunk? chunk;
     public int life;
-    public PhysicalObject.Appendage.Pos appendagePos;
+    public PhysicalObject.Appendage.Pos? appendagePos;
 
-    public GunSmolder(Room room, Vector2 pos, BodyChunk chunk, PhysicalObject.Appendage.Pos appendagePos) : base(SmokeType.Smolder, room, pos, 2, 3f, true, 15f, 15)
+    public GunSmolder(Room room, Vector2 pos, BodyChunk? chunk, PhysicalObject.Appendage.Pos? appendagePos) : base(SmokeType.Smolder, room, pos, 2, 3f, true, 15f, 15)
     {
         this.chunk = chunk;
         this.appendagePos = appendagePos;
@@ -41,7 +41,7 @@ public class GunSmolder : PositionedSmokeEmitter
 
         if (smokeSystemParticle != null)
         {
-            smokeSystemParticle.life = Mathf.InverseLerp(0f, 60f, (float)life);
+            smokeSystemParticle.life = Mathf.InverseLerp(0f, 60f, life);
             smokeSystemParticle.lastLife = smokeSystemParticle.life;
         }
         return smokeSystemParticle;
@@ -82,7 +82,7 @@ public class GunSmolder : PositionedSmokeEmitter
         public override void Update(bool eu)
         {
             base.Update(eu);
-            vel.y = vel.y + 0.2f * Mathf.InverseLerp(0.9f, 1f, life);
+            vel.y += 0.2f * Mathf.InverseLerp(0.9f, 1f, life);
         }
 
         public override float ConDist(float timeStacker)

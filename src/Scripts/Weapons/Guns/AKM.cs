@@ -21,8 +21,7 @@ public class AKM : Gun
 
     protected override void ShootSound()
     {
-        // TODO
-        //room.PlaySound(Enums.Sounds.AKMShoot, bodyChunks[0], false, .36f + Random.value * .02f, 1.05f + Random.value * .2f);
+        room.PlaySound(SoundID.Fire_Spear_Explode, bodyChunks[0], false, .36f + Random.value * .02f, 1.05f + Random.value * .2f);
     }
 
     protected override void SummonProjectile(PhysicalObject user, bool boostAccuracy)
@@ -41,11 +40,14 @@ public class AKM : Gun
     protected override void ShootEffects()
     {
         var upDir = Custom.PerpendicularVector(AimDir);
+
         if (upDir.y < 0)
         {
             upDir *= -1f;
         }
+
         room.AddObject(new Explosion.ExplosionLight(firstChunk.pos + upDir * 5f + AimDir * 35f, 60f, 1f, 4, Color.yellow));
+
         for (var i = 0; i < 2; i++)
         {
             room.AddObject(new Spark(firstChunk.pos + upDir * 5f + LastAimDir * 25f, AimDir * 50f * Random.value + Custom.RNV() * 1.5f, Color.Lerp(Color.white, Color.yellow, Random.value), null, 3, 8));

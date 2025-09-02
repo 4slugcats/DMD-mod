@@ -22,7 +22,7 @@ public class PlayerModule
 
     public List<AbstractPhysicalObject> GunInventory { get; } = [];
     public int ActiveGunIndex { get; set; }
-    public AbstractPhysicalObject? ActiveGun => ActiveGunIndex > 0 ? GunInventory[ActiveGunIndex - 1] : null;
+    public AbstractPhysicalObject ActiveGun => GunInventory[ActiveGunIndex];
 
     public PlayerModule(Player player)
     {
@@ -33,6 +33,9 @@ public class PlayerModule
 
     private void CreateInventory(Player player)
     {
+        GunInventory.Add(new AbstractPhysicalObject(player.abstractCreature.world, Enums.Guns.None, null!,
+            player.abstractCreature.pos, player.abstractCreature.world.game.GetNewID()));
+
         var save = player.abstractCreature.world.game.GetMiscWorld();
 
         if (save is null)

@@ -32,15 +32,17 @@ class BFGOrb : PhysicalObject, IDrawable
     public void InitiateSprites(RoomCamera.SpriteLeaser sLeaser, RoomCamera rCam)
     {
         sLeaser.sprites = new FSprite[1];
-        sLeaser.sprites[0] = new FSprite("dmd_bfgorb", true);
-        sLeaser.sprites[0].scale = 1f;
+        sLeaser.sprites[0] = new FSprite("dmd_bfgorb")
+        {
+            scale = 1f,
+        };
         //sLeaser.sprites[0].shader = room.game.rainWorld.Shaders["Projection"];
 
         //sLeaser.sprites[1] = new FSprite("pixel", true);
         //sLeaser.sprites[1].scale = 10f;
         //sLeaser.sprites[1].color = new Color(0, 0, 0);
 
-        AddToContainer(sLeaser, rCam, null);
+        AddToContainer(sLeaser, rCam, null!);
     }
 
     public void ApplyPalette(RoomCamera.SpriteLeaser sLeaser, RoomCamera rCam, RoomPalette palette)
