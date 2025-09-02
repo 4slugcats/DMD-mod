@@ -9,13 +9,17 @@ public static partial class Enums
         public static ObjectType None { get; } = new(nameof(None), true);
 
         public static ObjectType AKM { get; } = new(nameof(AKM), true);
-        public static ObjectType RocketLauncher { get; } = new(nameof(RocketLauncher), true);
         public static ObjectType Shotgun { get; } = new(nameof(Shotgun), true);
         public static ObjectType BFG { get; } = new(nameof(BFG), true);
         public static ObjectType Minigun { get; } = new(nameof(Minigun), true);
+
+        public static ObjectType RocketLauncher { get; } = new(nameof(RocketLauncher), true);
         public static ObjectType Derringer { get; } = new(nameof(Derringer), true);
 
-        public static ObjectType BFGOrb { get; } = new(nameof(BFGOrb), true);
-        public static ObjectType Pipe { get; } = new(nameof(Pipe), true);
+        public static class Projectiles
+        {
+            public static ObjectType BFGOrb { get; } = new(nameof(BFGOrb), true);
+            public static ObjectType Grenade { get; } = new(nameof(Grenade), true);
+        }
     }
 }

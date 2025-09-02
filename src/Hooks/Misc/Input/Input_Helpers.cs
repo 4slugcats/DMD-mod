@@ -52,7 +52,25 @@ public static class Input_Helpers
             }
         }
 
-        return player.input[0].controllerType == Options.ControlSetup.Preset.KeyboardSinglePlayer && Input.GetKey(ModOptions.SwapLeftKeybind.Value);
+        if (player.IsKeyboardPlayer())
+        {
+            if (Input.GetKey(ModOptions.SwapLeftKeybind.Value))
+            {
+                return true;
+            }
+
+            if (Input.GetMouseButton(3))
+            {
+                return true;
+            }
+
+            if (Input.GetAxis("Mouse ScrollWheel") > 0.01f)
+            {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     public static bool IsSwapRightInput(this Player player)
@@ -83,7 +101,25 @@ public static class Input_Helpers
             }
         }
 
-        return player.IsKeyboardPlayer() && Input.GetKey(ModOptions.SwapRightKeybind.Value);
+        if (player.IsKeyboardPlayer())
+        {
+            if (Input.GetKey(ModOptions.SwapRightKeybind.Value))
+            {
+                return true;
+            }
+
+            if (Input.GetMouseButton(4))
+            {
+                return true;
+            }
+
+            if (Input.GetAxis("Mouse ScrollWheel") < -0.01f)
+            {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     public static bool IsShootInput(this Player player)

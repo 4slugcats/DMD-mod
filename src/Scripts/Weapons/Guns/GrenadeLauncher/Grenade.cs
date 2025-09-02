@@ -16,7 +16,7 @@ internal class Grenade : ScavengerBomb
         rotationSpeed = Random.value * .5f / 10;
     }
 
-    public void Pipe_InitiateBurn()
+    public void GrenadeInitiateBurn()
     {
         if (burn == 0f)
         {
@@ -29,7 +29,7 @@ internal class Grenade : ScavengerBomb
         }
     }
 
-    public void Pipe_Explode(BodyChunk hitChunk)
+    public void GrenadeExplode(BodyChunk hitChunk)
     {
         if (slatedForDeletetion)
         {

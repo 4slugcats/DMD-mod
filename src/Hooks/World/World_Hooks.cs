@@ -49,16 +49,6 @@ public static class World_Hooks
             return "dmd_icon_derringer";
         }
 
-        if (itemType == Enums.Guns.BFGOrb)
-        {
-            return "dmd_icon_bfg_orb";
-        }
-
-        if (itemType == Enums.Guns.Pipe)
-        {
-            return "dmd_icon_pipe";
-        }
-
         return orig(itemType, intData);
     }
 
@@ -78,7 +68,16 @@ public static class World_Hooks
             {
                 self.realizedObject = new Minigun(self, self.world);
             }
+            else if (self.type == Enums.Guns.BFG)
+            {
+                self.realizedObject = new BFG(self, self.world);
+            }
+            else if (self.type == Enums.Guns.Projectiles.BFGOrb)
+            {
+                self.realizedObject = new BFGOrb(self);
+            }
         }
+
         orig(self);
     }
 

@@ -9,6 +9,17 @@ public static class Player_Hooks
         On.Player.ctor += PlayerOnctor;
         On.Player.Update += Player_Update;
         On.Player.checkInput += PlayerOncheckInput;
+        On.Player.Grabability += PlayerOnGrabability;
+    }
+
+    private static Player.ObjectGrabability PlayerOnGrabability(On.Player.orig_Grabability orig, Player self, PhysicalObject obj)
+    {
+        if (obj is Gun gun)
+        {
+            return gun.OneHanded ? Player.ObjectGrabability.OneHand : Player.ObjectGrabability.Drag;
+        }
+
+        return orig(self, obj);
     }
 
     private static void PlayerOncheckInput(On.Player.orig_checkInput orig, Player self)

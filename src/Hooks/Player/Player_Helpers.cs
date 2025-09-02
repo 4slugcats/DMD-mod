@@ -21,8 +21,7 @@ public static class Player_Helpers
         game.UnlockGun(Enums.Guns.AKM);
         game.UnlockGun(Enums.Guns.Shotgun);
         game.UnlockGun(Enums.Guns.Minigun);
-        // game.UnlockGun(Enums.Guns.RocketLauncher);
-        // game.UnlockGun(Enums.Guns.BFG);
+        game.UnlockGun(Enums.Guns.BFG);
     }
 
     public static void UpdateDMD(Player self, PlayerModule playerModule)
@@ -94,7 +93,7 @@ public static class Player_Helpers
         else
         {
             playerModule.HudFadeTimer = 0;
-            playerModule.HudFade = Mathf.Lerp(playerModule.HudFade, 0.0f, 0.05f);
+            playerModule.HudFade = Custom.LerpAndTick(playerModule.HudFade, 0.0f, 0.05f, 0.01f);
         }
     }
 

@@ -42,12 +42,14 @@ public class BFG : Gun
 
     protected override void SummonProjectile(PhysicalObject user, bool boostAccuracy)
     {
-        var pipeAPO = new AbstractPhysicalObject(room.world, Enums.Guns.BFGOrb, null, abstractPhysicalObject.pos, room.world.game.GetNewID());
-        pipeAPO.RealizeInRoom();
+        var bfgOrbApo = new AbstractPhysicalObject(room.world, Enums.Guns.Projectiles.BFGOrb, null, abstractPhysicalObject.pos, room.world.game.GetNewID());
 
-        var orb = (BFGOrb)pipeAPO.realizedObject;
+        bfgOrbApo.RealizeInRoom();
+
+        var orb = (BFGOrb)bfgOrbApo.realizedObject;
 
         //dont let pebbels shoot it !!
         orb.firstChunk.pos = firstChunk.pos + AimDir * 5;
+        orb.firstChunk.vel = AimDir * 5.0f;
     }
 }

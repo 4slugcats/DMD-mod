@@ -39,24 +39,25 @@ public class GrenadeLauncher : Gun
 
     protected override void SummonProjectile(PhysicalObject user, bool boostAccuracy)
     {
-        var pipeAPO = new AbstractPhysicalObject(room.world, Enums.Guns.Pipe, null, abstractPhysicalObject.pos, room.world.game.GetNewID());
-        pipeAPO.RealizeInRoom();
-        var newPipe = (Grenade)pipeAPO.realizedObject;
+        var grenadeAPO = new AbstractPhysicalObject(room.world, Enums.Guns.Projectiles.Grenade, null, abstractPhysicalObject.pos, room.world.game.GetNewID());
+        grenadeAPO.RealizeInRoom();
+
+        var newGrenade = (Grenade)grenadeAPO.realizedObject;
 
         //dont let pebbels shoot it !!
-        newPipe.firstChunk.pos = firstChunk.pos + AimDir * 5;
-        newPipe.InitiateBurn();
+        newGrenade.firstChunk.pos = firstChunk.pos + AimDir * 5;
+        newGrenade.InitiateBurn();
         if (AimDir.y > -.4)
         {
-            newPipe.firstChunk.vel = AimDir * 15f;
-            newPipe.firstChunk.vel.y += 10;
+            newGrenade.firstChunk.vel = AimDir * 15f;
+            newGrenade.firstChunk.vel.y += 10;
         }
         else
         {
-            newPipe.firstChunk.vel = AimDir * 8f + new Vector2(((Player)user).ThrowDirection * 6, 0);
+            newGrenade.firstChunk.vel = AimDir * 8f + new Vector2(((Player)user).ThrowDirection * 6, 0);
         }
 
-        RelatedObjects.Add(newPipe);
+        RelatedObjects.Add(newGrenade);
     }
 
     public override void NewRoom(Room newRoom)
@@ -79,7 +80,7 @@ public class GrenadeLauncher : Gun
         {
             var grenade = (Grenade)obj;
 
-            grenade.Pipe_Explode(null!);
+            grenade.GrenadeExplode(null!);
         }
     }
 
