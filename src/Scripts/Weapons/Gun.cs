@@ -17,8 +17,6 @@ public abstract class Gun : Weapon
     private bool IsTriggerReleased { get; set; } = true;
 
     public bool IsFlipped { get; set; }
-    public bool AutoFlip { get; set; }
-
     protected int OwnerAge { get; set; }
 
     protected int FirstPipAngle { get; set; }
@@ -77,7 +75,6 @@ public abstract class Gun : Weapon
         AimDir = AimDir with { y = (Random.value * 2f - 1f) * .2f };
 
         LastAimDir = AimDir;
-        AutoFlip = true;
     }
 
     public override void PlaceInRoom(Room placeRoom)
@@ -93,18 +90,6 @@ public abstract class Gun : Weapon
         JustShot = false;
         AimDir.Normalize();
         LastAimDir = AimDir;
-
-        if (AutoFlip)
-        {
-            if (IsFlipped && AimDir.x < -.5)
-            {
-                IsFlipped = false;
-            }
-            else if (!IsFlipped && AimDir.x > .5)
-            {
-                IsFlipped = true;
-            }
-        }
 
         if (ReloadTime > 0)
         {
@@ -340,17 +325,8 @@ public abstract class Gun : Weapon
 
         sLeaser.sprites[0].x = Mathf.Lerp(firstChunk.lastPos.x, firstChunk.pos.x, timeStacker) - camPos.x;
         sLeaser.sprites[0].y = Mathf.Lerp(firstChunk.lastPos.y, firstChunk.pos.y, timeStacker) - camPos.y;
-
-        if (mode == Mode.OnBack)
-        {
-            sLeaser.sprites[0].scaleY = -1f;
-        }
-        else
-        {
-            sLeaser.sprites[0].rotation = Custom.AimFromOneVectorToAnother(new Vector2(0f, 0f), Vector3.Slerp(LastAimDir, AimDir, timeStacker)) - 90f;
-            sLeaser.sprites[0].scaleY = (IsFlipped ? 1f : -1f);
-        }
-
+        sLeaser.sprites[0].rotation = Custom.AimFromOneVectorToAnother(new Vector2(0f, 0f), Vector3.Slerp(LastAimDir, AimDir, timeStacker)) - 90f;
+        sLeaser.sprites[0].scaleY = (IsFlipped ? 1f : -1f);
 
         if (Owner is Player && mode == Mode.Carried)
         {

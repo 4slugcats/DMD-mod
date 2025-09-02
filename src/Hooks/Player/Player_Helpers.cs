@@ -127,14 +127,12 @@ public static class Player_Helpers
             gun.mode = Weapon.Mode.OnBack;
             gun.firstChunk.pos = player.firstChunk.pos;
 
-            gun.setRotation = Vector3.Slerp(gun.rotation, Custom.rotateVectorDeg(Vector2.up, player.flipDirection * 20.0f), 0.2f);
-            gun.IsFlipped = player.flipDirection == -1;
+            gun.AimDir = Vector3.Slerp(gun.AimDir, Custom.rotateVectorDeg(Vector2.up, player.flipDirection * 35.0f), 0.2f).normalized;
+            gun.IsFlipped = player.flipDirection == 1;
 
-            Plugin.Logger.LogWarning(gun.rotation);
-
-            if (player.firstChunk.vel.x > 1.0f)
+            if (player.firstChunk.vel.magnitude > 3.0f)
             {
-                gun.setRotation = Custom.rotateVectorDeg(gun.rotation, Random.Range(0.5f, 3.0f));
+                gun.AimDir = Custom.rotateVectorDeg(gun.AimDir, Random.Range(-5.0f, 5.0f));
             }
         }
         else
