@@ -9,38 +9,54 @@ public class PlayerModule
 
     public Player.InputPackage UnblockedInput { get; set; }
     public bool BlockInput { get; set; }
+    public bool WasSwapLeftInput { get; set; }
+    public bool WasSwapRightInput { get; set; }
+    public bool WasSwapped { get; set; }
+
 
     public Vector2 AimPos { get; set; }
     public bool ReturnAimToCenter { get; set; } = true;
 
     public float HudFade { get; set; }
+    public float HudFadeTimer { get; set; }
 
     public List<AbstractPhysicalObject> GunInventory { get; } = [];
-    public int? ActiveGunIndex { get; set; }
-    public AbstractPhysicalObject? ActiveGun => ActiveGunIndex is not null && ActiveGunIndex < GunInventory.Count ? GunInventory[(int)ActiveGunIndex] : null;
+    public int ActiveGunIndex { get; set; }
+    public AbstractPhysicalObject? ActiveGun => ActiveGunIndex > 0 ? GunInventory[ActiveGunIndex - 1] : null;
 
     public PlayerModule(Player player)
     {
         AbstractPlayerRef = new WeakReference<AbstractCreature>(player.abstractCreature);
 
-        GiveGuns(player);
+        CreateInventory(player);
     }
 
-    private void GiveGuns(Player player)
+    private void CreateInventory(Player player)
     {
         var save = player.abstractCreature.world.game.GetMiscWorld();
 
         if (save is null)
         {
-            // TODO: handle arena
             return;
         }
 
-        foreach (var gunId in save.UnlockedGuns)
+        foreach (var gunStrId in save.UnlockedGuns)
         {
-            var gun = new Gun
+            if (!ExtEnumBase.TryParse(typeof(AbstractPhysicalObject.AbstractObjectType), gunStrId, false, out var gunType))
+            {
+                continue;
+            }
+
+            var gun = new AbstractPhysicalObject(player.abstractCreature.world,
+                (AbstractPhysicalObject.AbstractObjectType)gunType, null!, player.abstractCreature.pos,
+                player.abstractCreature.world.game.GetNewID());
 
             GunInventory.Add(gun);
         }
+    }
+
+    public void ShowHUD(int duration)
+    {
+        HudFadeTimer = duration;
     }
 }

@@ -9,10 +9,10 @@ public class InventoryHUD(HUD.HUD hud, FContainer fContainer) : HudPart(hud)
 {
     public FContainer HUDFContainer { get; } = fContainer;
 
-    public static ConditionalWeakTable<AbstractPhysicalObject, GunSymbol> Symbols { get; } = new();
+    public static ConditionalWeakTable<AbstractPhysicalObject, InventorySymbol> Symbols { get; } = new();
     public static ConditionalWeakTable<AbstractCreature, FSprite> InventoryCircles { get; } = new();
 
-    public List<GunSymbol> AllSymbols { get; } = [];
+    public List<InventorySymbol> AllSymbols { get; } = [];
     public List<FSprite> AllHUDCircles { get; } = [];
 
     public bool HardSetPos { get; set; }
@@ -69,7 +69,7 @@ public class InventoryHUD(HUD.HUD hud, FContainer fContainer) : HudPart(hud)
 
             if (!InventoryCircles.TryGetValue(player.abstractCreature, out var circle))
             {
-                circle = new FSprite("pearlcat_hudcircle")
+                circle = new FSprite("dmd_hudcircle")
                 {
                     alpha = 0.0f,
                 };
@@ -83,9 +83,9 @@ public class InventoryHUD(HUD.HUD hud, FContainer fContainer) : HudPart(hud)
                 HUDFContainer.AddChild(circle);
             }
 
-            for (var i = 0; i < playerModule.Inventory.Count; i++)
+            for (var i = 0; i < playerModule.GunInventory.Count; i++)
             {
-                var abstractObject = playerModule.Inventory[i];
+                var abstractObject = playerModule.GunInventory[i];
                 var diff = i - activeGunIndex;
 
                 var isActive = playerModule.ActiveGun == abstractObject;
@@ -98,7 +98,7 @@ public class InventoryHUD(HUD.HUD hud, FContainer fContainer) : HudPart(hud)
                 symbol.DistFade = isActive ? 1.0f : 0.8f;
 
                 var origin = truePos;
-                var angle = (diff ?? i) * Mathf.PI * 2.0f / playerModule.Inventory.Count + Mathf.Deg2Rad * 90.0f;
+                var angle = (diff) * Mathf.PI * 2.0f / playerModule.GunInventory.Count + Mathf.Deg2Rad * 90.0f;
 
                 var radius = Custom.LerpMap(playerModule.HudFade, 0.5f, 1.0f, 65.0f, 80.0f);
                 var invPos = new Vector2(origin.x + Mathf.Cos(angle) * radius, origin.y + Mathf.Sin(angle) * radius);
@@ -158,35 +158,13 @@ public class InventoryHUD(HUD.HUD hud, FContainer fContainer) : HudPart(hud)
             return;
         }
 
-        List<GunSymbol> updatedSymbols = [];
+        List<InventorySymbol> updatedSymbols = [];
 
         foreach (var playerModule in allModules)
         {
-            if (playerModule.PlayerRef is null)
-            {
-                continue;
-            }
-
-            var player = playerModule.PlayerRef;
-
-            foreach (var item in playerModule.Inventory)
+            foreach (var item in playerModule.GunInventory)
             {
                 UpdateSymbol(item, playerModule, updatedSymbols);
-            }
-
-            foreach (var grasp in player.grasps)
-            {
-                if (grasp?.grabbed is not PhysicalObject physicalObject)
-                {
-                    continue;
-                }
-
-                if (physicalObject is not DataPearl)
-                {
-                    continue;
-                }
-
-                UpdateSymbol(physicalObject.abstractPhysicalObject, playerModule, updatedSymbols);
             }
         }
 
@@ -198,7 +176,7 @@ public class InventoryHUD(HUD.HUD hud, FContainer fContainer) : HudPart(hud)
         }
     }
 
-    public void UpdateSymbol(AbstractPhysicalObject abstractObject, PlayerModule playerModule, List<PlayerPearlSymbol> updatedSymbols)
+    public void UpdateSymbol(AbstractPhysicalObject abstractObject, PlayerModule playerModule, List<InventorySymbol> updatedSymbols)
     {
         if (!Symbols.TryGetValue(abstractObject, out var symbol) || !AllSymbols.Contains(symbol))
         {
@@ -207,7 +185,7 @@ public class InventoryHUD(HUD.HUD hud, FContainer fContainer) : HudPart(hud)
                 Symbols.Remove(abstractObject);
             }
 
-            symbol = new PlayerPearlSymbol(this, Vector2.zero);
+            symbol = new InventorySymbol(this, Vector2.zero);
             Symbols.Add(abstractObject, symbol);
             AllSymbols.Add(symbol);
         }

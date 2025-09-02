@@ -18,7 +18,7 @@ public static class Hooks
     {
         // Misc
         SaveData_Hooks.ApplyHooks();
-        On.Menu.IntroRoll.ctor += IntroRoll_ctor1;
+        Input_Hooks.ApplyHooks();
 
         // Player
         Player_Hooks.ApplyHooks();
@@ -28,13 +28,6 @@ public static class Hooks
         World_Hooks.ApplyHooks();
         Room_Hooks.ApplyHooks();
 
-    }
-
-    private static void IntroRoll_ctor1(On.Menu.IntroRoll.orig_ctor orig, Menu.IntroRoll self, ProcessManager manager)
-    {
-        orig(self, manager);
-        self.illustrations[2] = new Menu.MenuIllustration(self, self.pages[0], "", "Intro_Roll_C_dmd", new Vector2(0f, 0f), true, false);
-        self.pages[0].subObjects.Add(self.illustrations[2]);
     }
 
     private static void RainWorld_OnModsInit(On.RainWorld.orig_OnModsInit orig, RainWorld self)
@@ -85,28 +78,6 @@ public static class Hooks
         finally
         {
             orig(self);
-        }
-    }
-    public static bool Lock;
-    private static void RainWorld_PostModsInit(On.RainWorld.orig_PostModsInit orig, RainWorld self)
-    {
-        orig(self);
-        if (Lock) return;
-        Lock = true;
-        IL.Menu.IntroRoll.ctor += IntroRoll_ctor;
-
-    }
-    private static void IntroRoll_ctor(ILContext il)
-    {
-        var cursor = new ILCursor(il);
-        int localVarNum = 0;
-
-        if (cursor.TryGotoNext(i => i.MatchNewarr<string>())
-            && cursor.TryGotoNext(MoveType.After, i => i.MatchStloc(out localVarNum)))
-        {
-            cursor.Emit(OpCodes.Ldloc, localVarNum);
-            cursor.EmitDelegate<Func<string[], string[]>>((oldTitleImages) => [.. oldTitleImages, "dmd"]);
-            cursor.Emit(OpCodes.Stloc, localVarNum);
         }
     }
 }

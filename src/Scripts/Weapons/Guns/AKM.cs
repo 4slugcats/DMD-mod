@@ -19,7 +19,7 @@ public class AKM : Gun
         CheckIfArena(world);
     }
 
-    public override void ShootSound()
+    protected override void ShootSound()
     {
         // TODO
         //room.PlaySound(Enums.Sounds.AKMShoot, bodyChunks[0], false, .36f + Random.value * .02f, 1.05f + Random.value * .2f);

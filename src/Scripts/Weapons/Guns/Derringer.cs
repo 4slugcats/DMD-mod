@@ -26,7 +26,7 @@ public class Derringer : Gun
         }
     }
 
-    public override void ShootSound()
+    protected override void ShootSound()
     {
         room.PlaySound(Enums.Sounds.AKMShoot, bodyChunks[0], false, .38f + Random.value * .03f, 1.1f + Random.value * .2f);
     }

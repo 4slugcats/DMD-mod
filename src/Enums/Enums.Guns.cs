@@ -6,6 +6,8 @@ public static partial class Enums
 {
     public static class Guns
     {
+        public static ObjectType None { get; } = new(nameof(None), true);
+
         public static ObjectType AKM { get; } = new(nameof(AKM), true);
         public static ObjectType RocketLauncher { get; } = new(nameof(RocketLauncher), true);
         public static ObjectType Shotgun { get; } = new(nameof(Shotgun), true);

@@ -20,7 +20,7 @@ public class Minigun : Gun
     }
     bool shootswap = false;
 
-    public override void ShootSound()
+    protected override void ShootSound()
     {
         room.PlaySound(Enums.Sounds.AKMShoot, bodyChunks[0], false, .4f + Random.value * .1f, 1.15f + Random.value * .2f);
     }

@@ -22,10 +22,10 @@ public static class ModuleManager
 
     public static List<PlayerModule> GetAllDMDModules(this RainWorldGame game)
     {
-        var allPearlcats = game.GetAllDMDs();
+        var allDMDs = game.GetAllDMDs();
         var playerModules = new List<PlayerModule>();
 
-        foreach (var abstractCreature in allPearlcats)
+        foreach (var abstractCreature in allDMDs)
         {
             if (abstractCreature.realizedObject is not Player player)
             {

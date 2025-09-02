@@ -17,7 +17,7 @@ public class BFG : Gun
         CheckIfArena(world);
     }
 
-    public override void ShootSound()
+    protected override void ShootSound()
     {
         room.PlaySound(SoundID.Slugcat_Terrain_Impact_Medium, firstChunk.pos, 6, 0.5f);
         //SoundHelper.PlayCustomSound("AK-47Shoot", bodyChunks[0], .55f + UnityEngine.Random.value * .02f, .9f + UnityEngine.Random.value * .1f);

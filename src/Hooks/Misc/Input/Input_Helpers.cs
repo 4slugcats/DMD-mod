@@ -6,6 +6,11 @@ public static class Input_Helpers
 {
     public static string TriggerAxisId => "DschockHorizontalRight";
 
+    public static float MouseInactivityTimeout => 5.0f;
+    public static float MouseInactivityTimer { get; set; }
+    public static Vector3 LastMousePos { get; set; }
+    public static bool IsMouseActive { get; set; }
+
     public static bool IsSwapKeybindPressed(this Player player)
     {
         return player.playerState.playerNumber switch
@@ -78,12 +83,12 @@ public static class Input_Helpers
             }
         }
 
-        return player.input[0].controllerType == Options.ControlSetup.Preset.KeyboardSinglePlayer && Input.GetKey(ModOptions.SwapRightKeybind.Value);
+        return player.IsKeyboardPlayer() && Input.GetKey(ModOptions.SwapRightKeybind.Value);
     }
 
-    public static bool IsFireInput(this Player player)
+    public static bool IsShootInput(this Player player)
     {
-        if (player.IsFirstDMD())
+        if (player.IsKeyboardPlayer() && IsMouseActive)
         {
             if (Input.GetMouseButton(0))
             {
@@ -96,7 +101,7 @@ public static class Input_Helpers
 
     public static Vector2 GetAimDir(this Player player)
     {
-        if (player.input[0].controllerType == Options.ControlSetup.Preset.KeyboardSinglePlayer && player.IsFirstDMD())
+        if (player.IsKeyboardPlayer())
         {
             return Futile.mousePosition;
         }
@@ -106,7 +111,7 @@ public static class Input_Helpers
 
     public static Vector2 GetAimPos(this Player player)
     {
-        if (player.input[0].controllerType == Options.ControlSetup.Preset.KeyboardSinglePlayer && player.IsFirstDMD())
+        if (player.IsKeyboardPlayer() && IsMouseActive)
         {
             return Futile.mousePosition;
         }

@@ -18,7 +18,7 @@ public class Shotgun : Gun
         CheckIfArena(world);
     }
 
-    public override void ShootSound()
+    protected override void ShootSound()
     {
         room.PlaySound(Enums.Sounds.AKMShoot, bodyChunks[0], false, .5f + Random.value * .03f, 1f + Random.value * .07f);
         room.PlaySound(Enums.Sounds.AKMShoot, bodyChunks[0], false, .45f + Random.value * .03f, .9f + Random.value * .07f);

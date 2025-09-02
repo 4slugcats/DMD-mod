@@ -31,6 +31,7 @@ public abstract class Gun : Weapon
     protected bool Automatic { get; set; }
     protected int FireSpeed { get; set; }
 
+    protected int Clip { get; set; }
     protected int FullClip { get; set; }
     public int ClipCost { get; set; }
 
@@ -42,7 +43,7 @@ public abstract class Gun : Weapon
 
     protected List<PhysicalObject> RelatedObjects { get; } = [];
 
-    public Vector2 UpDir
+    protected Vector2 UpDir
     {
         get
         {
@@ -53,12 +54,6 @@ public abstract class Gun : Weapon
             }
             return dir;
         }
-    }
-
-    protected int Clip
-    {
-        get => abstractPhysicalObject.ID.number;
-        set => abstractPhysicalObject.ID.number = value;
     }
 
     public Gun(AbstractPhysicalObject abstractPhysicalObject, World world) : base(abstractPhysicalObject, world)
@@ -287,6 +282,8 @@ public abstract class Gun : Weapon
 
     protected abstract void ShootEffects();
 
+    protected virtual void ShootSound() { }
+
     public void Reload(bool smart)
     {
         var costsatisfied = false;
@@ -412,7 +409,4 @@ public abstract class Gun : Weapon
     }
 
     public override void ApplyPalette(RoomCamera.SpriteLeaser sLeaser, RoomCamera rCam, RoomPalette palette) { }
-
-
-    public virtual void ShootSound() { }
 }
