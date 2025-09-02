@@ -15,7 +15,27 @@ public static class Player_Hooks
     {
         orig(self);
 
+        if (!self.TryGetDMDModule(out var playerModule))
+        {
+            return;
+        }
 
+        var input = self.input[0];
+        playerModule.UnblockedInput = input;
+
+        if (playerModule.BlockInput)
+        {
+            input.x = 0;
+            input.y = 0;
+            input.analogueDir *= 0f;
+
+            input.jmp = false;
+            input.thrw = false;
+            input.pckp = false;
+            input.spec = false;
+        }
+
+        self.input[0] = input;
     }
 
     private static void PlayerOnctor(On.Player.orig_ctor orig, Player self, AbstractCreature abstractCreature, World world)

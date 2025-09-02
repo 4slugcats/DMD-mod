@@ -155,23 +155,15 @@ public abstract class Gun : Weapon
                 }
             }
         }
-        if (Smolder != null)
+        if (Smolder is not null)
         {
             Smolder.pos = firstChunk.pos + UpDir * 5f + AimDir * (GunLength / 2f);
-            if (Smolder.slatedForDeletetion)
-            {
-                Smolder = null;
-            }
         }
 
         IsTriggerReleased = TimeFromLastShotAttempt > 1;
         TimeFromLastShotAttempt++;
 
-        if (mode == Mode.Free)
-        {
-            Owner = null;
-        }
-        if (Owner != null)
+        if (Owner is not null)
         {
             OwnerAge++;
         }

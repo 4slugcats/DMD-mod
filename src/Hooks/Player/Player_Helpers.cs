@@ -7,6 +7,11 @@ public static class Player_Helpers
         return player?.SlugCatClass == Enums.DMD;
     }
 
+    public static bool IsFirstDMD(this Player player)
+    {
+        return player.abstractCreature.world.game.GetFirstDMD() == player.abstractCreature;
+    }
+
     public static void InitializeDMD(Player self, PlayerModule playerModule)
     {
         var abstractGun = new AbstractPhysicalObject(self.abstractCreature.Room.world, Enums.Guns.AKM, null!, self.abstractCreature.pos, self.abstractCreature.world.game.GetNewID());

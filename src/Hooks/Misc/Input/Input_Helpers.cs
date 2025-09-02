@@ -1,4 +1,4 @@
-﻿using System.Text.RegularExpressions;
+﻿using RWCustom;
 
 namespace DMD;
 
@@ -10,12 +10,107 @@ public static class Input_Helpers
     {
         return player.playerState.playerNumber switch
         {
-            0 => Input.GetKey(ModOptions.SwapKeybindPlayer1) || Input.GetKey(ModOptions.SwapKeybindKeyboard),
-            1 => Input.GetKey(ModOptions.SwapKeybindPlayer2),
-            2 => Input.GetKey(ModOptions.SwapKeybindPlayer3),
-            3 => Input.GetKey(ModOptions.SwapKeybindPlayer4),
+            0 => Input.GetKey(ModOptions.SwapKeybindPlayer1.Value) || Input.GetKey(ModOptions.SwapKeybindKeyboard.Value),
+            1 => Input.GetKey(ModOptions.SwapKeybindPlayer2.Value),
+            2 => Input.GetKey(ModOptions.SwapKeybindPlayer3.Value),
+            3 => Input.GetKey(ModOptions.SwapKeybindPlayer4.Value),
 
             _ => false,
         };
+    }
+
+    public static bool IsSwapLeftInput(this Player player)
+    {
+        if (ModOptions.SwapTriggerPlayer.Value != 0)
+        {
+            // Normal
+            if (ModOptions.SwapTriggerPlayer.Value > 0)
+            {
+                if (player.playerState.playerNumber == ModOptions.SwapTriggerPlayer.Value - 1)
+                {
+                    if (Input.GetAxis(TriggerAxisId) < -0.25f)
+                    {
+                        return true;
+                    }
+                }
+            }
+            // Inverted
+            else
+            {
+                if (player.playerState.playerNumber == -ModOptions.SwapTriggerPlayer.Value + 1)
+                {
+                    if (Input.GetAxis(TriggerAxisId) > 0.25f)
+                    {
+                        return true;
+                    }
+                }
+            }
+        }
+
+        return player.input[0].controllerType == Options.ControlSetup.Preset.KeyboardSinglePlayer && Input.GetKey(ModOptions.SwapLeftKeybind.Value);
+    }
+
+    public static bool IsSwapRightInput(this Player player)
+    {
+        if (ModOptions.SwapTriggerPlayer.Value != 0)
+        {
+            // Normal
+            if (ModOptions.SwapTriggerPlayer.Value > 0)
+            {
+                if (player.playerState.playerNumber == ModOptions.SwapTriggerPlayer.Value - 1)
+                {
+                    if (Input.GetAxis(TriggerAxisId) > 0.25f)
+                    {
+                        return true;
+                    }
+                }
+            }
+            // Inverted
+            else
+            {
+                if (player.playerState.playerNumber == -ModOptions.SwapTriggerPlayer.Value + 1)
+                {
+                    if (Input.GetAxis(TriggerAxisId) < -0.25f)
+                    {
+                        return true;
+                    }
+                }
+            }
+        }
+
+        return player.input[0].controllerType == Options.ControlSetup.Preset.KeyboardSinglePlayer && Input.GetKey(ModOptions.SwapRightKeybind.Value);
+    }
+
+    public static bool IsFireInput(this Player player)
+    {
+        if (player.IsFirstDMD())
+        {
+            if (Input.GetMouseButton(0))
+            {
+                return true;
+            }
+        }
+
+        return player.input[0].spec;
+    }
+
+    public static Vector2 GetAimDir(this Player player)
+    {
+        if (player.input[0].controllerType == Options.ControlSetup.Preset.KeyboardSinglePlayer && player.IsFirstDMD())
+        {
+            return Futile.mousePosition;
+        }
+
+        return player.input[0].analogueDir;
+    }
+
+    public static Vector2 GetAimPos(this Player player)
+    {
+        if (player.input[0].controllerType == Options.ControlSetup.Preset.KeyboardSinglePlayer && player.IsFirstDMD())
+        {
+            return Futile.mousePosition;
+        }
+
+        return player.input[0].analogueDir;
     }
 }
