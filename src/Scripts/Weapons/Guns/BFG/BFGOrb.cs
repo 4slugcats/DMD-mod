@@ -30,9 +30,9 @@ public class BFGOrb : UpdatableAndDeletable, IDrawable
     {
         age++;
         Pos += vel * Mathf.Pow(Mathf.Lerp(1.5f, 0.3f, age / 300),2f);
-        if (room.GetTile(Pos).Solid)
+        if (room.GetTile(Pos).Solid || Contact == 2)
         {
-            vel *= .7f;
+            vel *= .8f;
             fizzle += 0.04f;
         }
         if (age > 400)
