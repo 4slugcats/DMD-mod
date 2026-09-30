@@ -6,7 +6,7 @@ public static class Player_Hooks
 {
     public static void ApplyHooks()
     {
-        On.Player.ctor += PlayerOnctor;
+        On.Player.ctor += Player_ctor;
         On.Player.Update += Player_Update;
         On.Player.checkInput += PlayerOncheckInput;
         On.Player.Grabability += PlayerOnGrabability;
@@ -54,7 +54,7 @@ public static class Player_Hooks
         }
     }
 
-    private static void PlayerOnctor(On.Player.orig_ctor orig, Player self, AbstractCreature abstractCreature, World world)
+    private static void Player_ctor(On.Player.orig_ctor orig, Player self, AbstractCreature abstractCreature, World world)
     {
         orig(self, abstractCreature, world);
 

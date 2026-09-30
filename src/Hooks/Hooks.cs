@@ -26,6 +26,9 @@ public static class Hooks
         World_Hooks.ApplyHooks();
         Room_Hooks.ApplyHooks();
 
+        //Ammo
+        AmmoSpawner.ApplyHooks();
+
     }
 
     private static void RainWorld_OnModsInit(On.RainWorld.orig_OnModsInit orig, RainWorld self)

@@ -8,7 +8,7 @@ public static class Player_Helpers
     {
         return player?.SlugCatClass == Enums.DMD;
     }
-
+    public static AbstractPhysicalObject.AbstractObjectType[] ArenaGuns = {Enums.Guns.AKM,Enums.Guns.Shotgun,Enums.Guns.BFG };
     public static bool IsKeyboardPlayer(this Player player)
     {
         return player.input[0].controllerType == Options.ControlSetup.Preset.KeyboardSinglePlayer;
@@ -22,6 +22,16 @@ public static class Player_Helpers
         game.UnlockGun(Enums.Guns.Shotgun);
         game.UnlockGun(Enums.Guns.Minigun);
         game.UnlockGun(Enums.Guns.BFG);
+        game.UnlockGun(Enums.Guns.Derringer);
+        game.UnlockGun(Enums.Guns.RocketLauncher);
+
+        //gives ammo for all ammotypes - for debug!
+        playerModule.GunMagazines[0] = 100;
+        playerModule.GunMagazines[1] = 10;
+        playerModule.GunMagazines[2] = 10;
+        playerModule.GunMagazines[3] = 3;
+        playerModule.GunMagazines[4] = 3;
+
     }
 
     public static void UpdateDMD(Player self, PlayerModule playerModule)
@@ -33,6 +43,39 @@ public static class Player_Helpers
         {
             UpdateGun(self, playerModule, gun);
         }
+
+        //Ammo Pickup
+        if (self.room == null)return;
+        for (int o = 0; o < self.room.updateList.Count; o++)
+        {
+            if (self.room.updateList[o] is AmmoObject)
+            {
+                AmmoObject Ammo = self.room.updateList[o] as AmmoObject;
+                if (Custom.DistLess(self.mainBodyChunk.pos, Ammo.bodyChunks[0].pos, 30))
+                {
+
+                    if ((playerModule.ActiveGun.realizedObject as Gun).AmmoType == Ammo.AbstractAmmo.AmmoType)
+                    {
+                        //Ammo picked up
+                        Debug.Log("ammo picked up!");
+                        Gun CurrentGun = (playerModule.ActiveGun.realizedObject as Gun);
+                        /*
+                        if (CurrentGun.Clip < CurrentGun.FullClip)
+                        {
+                            CurrentGun.Clip = Mathf.Min(CurrentGun.Clip++, CurrentGun.FullClip);
+                        }
+                        */
+                        playerModule.GunMagazines[CurrentGun.AmmoType]++;
+                        Ammo.slatedForDeletetion = true;
+
+                    }
+                }
+
+            }
+
+        }
+        
+
     }
 
     private static void UpdateInput(Player self, PlayerModule playerModule)

@@ -14,6 +14,7 @@ public class Derringer : Gun
         GunLength = 20;
         RandomSpreadStat = 0.8f;
         PipAngleDiff = 40;
+        AmmoType = 2;
         CheckIfArena(world);
     }
 
@@ -31,7 +32,7 @@ public class Derringer : Gun
         room.PlaySound(Enums.Sounds.AKMShoot, bodyChunks[0], false, .38f + Random.value * .03f, 1.1f + Random.value * .2f);
     }
 
-    protected override void SummonProjectile(PhysicalObject user, bool boostAccuracy)
+    protected override void SummonProjectile(PhysicalObject user, bool boostAccuracy, AbstractCreature owner)
     {
         var newBullet = new Bullet(user, firstChunk.pos + UpDir * 5f, (AimDir.normalized + (Random.insideUnitCircle * RandomSpreadStat * (boostAccuracy ? 0.3f : 1f)) * .045f).normalized, DamageStat, 4.5f + 2f * DamageStat, 15f + 30f * DamageStat, false);
         room.AddObject(newBullet);

@@ -6,29 +6,21 @@ public static class SaveData_Helpers
     {
         var miscWorld = game.GetMiscWorld();
 
-        if (miscWorld is null)
+        if (miscWorld != null)
         {
-            return;
+            if (!miscWorld.UnlockedGuns.Contains(id.value))
+            {
+                miscWorld.UnlockedGuns.Add(id.value);
+            }
         }
-
-        if (miscWorld.UnlockedGuns.Contains(id.value))
-        {
-            return;
-        }
-
-        miscWorld.UnlockedGuns.Add(id.value);
-
         foreach (var module in game.GetAllDMDModules())
         {
-            if (module.PlayerRef is null)
+            if (module.PlayerRef == null)
             {
                 continue;
             }
-
-            var gun = new AbstractPhysicalObject(game.world,
-                id, null!, module.PlayerRef.abstractCreature.pos,
-                game.GetNewID());
-
+            Debug.Log("unlocked " + id);
+            AbstractPhysicalObject gun = new AbstractPhysicalObject(game.world,id, null!, module.PlayerRef.abstractCreature.pos,game.GetNewID());
             module.GunInventory.Add(gun);
         }
     }

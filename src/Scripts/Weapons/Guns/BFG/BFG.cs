@@ -14,7 +14,9 @@ public class BFG : Gun
         GunLength = 87;
         RandomSpreadStat = 0.2f;
         ClipCost = 4;
+        AmmoType = 3;
         CheckIfArena(world);
+
     }
 
     protected override void ShootSound()
@@ -40,16 +42,9 @@ public class BFG : Gun
         }
     }
 
-    protected override void SummonProjectile(PhysicalObject user, bool boostAccuracy)
+    protected override void SummonProjectile(PhysicalObject user, bool boostAccuracy, AbstractCreature owner)
     {
-        var bfgOrbApo = new AbstractPhysicalObject(room.world, Enums.Guns.Projectiles.BFGOrb, null, abstractPhysicalObject.pos, room.world.game.GetNewID());
-
-        bfgOrbApo.RealizeInRoom();
-
-        var orb = (BFGOrb)bfgOrbApo.realizedObject;
-
+        room.AddObject(new BFGOrb(this,owner, AimDir * 4f, firstChunk.pos + AimDir * 5));
         //dont let pebbels shoot it !!
-        orb.firstChunk.pos = firstChunk.pos + AimDir * 5;
-        orb.firstChunk.vel = AimDir * 5.0f;
     }
 }

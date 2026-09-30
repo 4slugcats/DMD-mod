@@ -131,7 +131,6 @@ public static class Input_Helpers
                 return true;
             }
         }
-
         return player.input[0].spec;
     }
 

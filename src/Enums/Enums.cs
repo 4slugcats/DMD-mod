@@ -9,5 +9,10 @@ public static partial class Enums
         _ = DMD;
         _ = Scenes.Slugcat_DMD;
         _ = Guns.AKM;
+        
+    }
+    public static class Objects
+    {
+        public static AbstractPhysicalObject.AbstractObjectType Ammo { get; } = new(nameof(Ammo), true);
     }
 }

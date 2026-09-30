@@ -5,7 +5,7 @@ namespace DMD;
 public abstract class Gun : Weapon
 {
     protected Creature Owner { get; set; } = null!;
-    public GunSmolder Smolder { get; set; } = null!;
+    //public GunSmolder Smolder { get; set; } = null!;
     private bool SmokeFromShot { get; set; }
 
     public Vector2 AimDir { get; set; }
@@ -30,8 +30,8 @@ public abstract class Gun : Weapon
     protected bool Automatic { get; set; }
     protected int FireSpeed { get; set; }
 
-    protected int Clip { get; set; }
-    protected int FullClip { get; set; }
+    public int Clip;
+    public int FullClip { get; set; }
     public int ClipCost { get; set; }
 
     private int ReloadTime { get; set; }
@@ -39,6 +39,8 @@ public abstract class Gun : Weapon
 
     protected float DamageStat { get; set; }
     protected float RandomSpreadStat { get; set; }
+
+    public int AmmoType { get; set; }
 
     protected List<PhysicalObject> RelatedObjects { get; } = [];
 
@@ -65,8 +67,8 @@ public abstract class Gun : Weapon
 
         airFriction = 0.999f;
         gravity = 0.9f;
-        bounce = 0.4f;
-        surfaceFriction = 0.4f;
+        bounce = 0.1f;
+        surfaceFriction = 0.2f;
         collisionLayer = 2;
         waterFriction = 0.98f;
         buoyancy = 0.4f;
@@ -80,7 +82,7 @@ public abstract class Gun : Weapon
     public override void PlaceInRoom(Room placeRoom)
     {
         base.PlaceInRoom(placeRoom);
-        abstractPhysicalObject.ID.number = FullClip;
+        //abstractPhysicalObject.ID.number = FullClip;
         firstChunk.pos = placeRoom.MiddleOfTile(abstractPhysicalObject.pos);
         firstChunk.lastPos = firstChunk.pos;
     }
@@ -104,7 +106,15 @@ public abstract class Gun : Weapon
             if (ReloadTime == 1)
             {
                 room.PlaySound(SoundID.Spear_Bounce_Off_Creauture_Shell, firstChunk.pos + AimDir * 25f, 0.8f, 1.4f);
-                Clip = FullClip;
+                if (PartialReload != -1)
+                {
+                    Clip = PartialReload;
+                    PartialReload = -1;
+                }
+                else
+                {
+                    Clip = FullClip;
+                }
             }
 
             ReloadTime--;
@@ -116,24 +126,28 @@ public abstract class Gun : Weapon
             FireDelay--;
             if (SmokeFromShot)
             {
+                /*
                 if (Smolder == null)
                 {
-                    Smolder = new GunSmolder(room, firstChunk.pos + UpDir * 5f + AimDir * (GunLength / 2f), null, null);
-                    room.AddObject(Smolder);
+                    //Smolder = new GunSmolder(room, firstChunk.pos + UpDir * 5f + AimDir * (GunLength / 2f), null, null);
+                    //room.AddObject(Smolder);
                 }
-                Smolder.life = 100;
+
+                //Smolder.life = 100;
                 for (var i = 0; i < 3; i++)
                 {
-                    Smolder.AddParticle(Smolder.pos + UpDir * 5f + AimDir * GunLength / 2f, AimDir * (10f + 30f * Random.value) + Random.insideUnitCircle * 14f, 30f);
-                }
+                    //Smolder.AddParticle(Smolder.pos + UpDir * 5f + AimDir * GunLength / 2f, AimDir * (10f + 30f * Random.value) + Random.insideUnitCircle * 14f, 30f);
+                
+                */
+
             }
         }
-
+        /*
         if (Smolder is not null)
         {
             Smolder.pos = firstChunk.pos + UpDir * 5f + AimDir * (GunLength / 2f);
         }
-
+        */
         IsTriggerReleased = TimeFromLastShotAttempt > 1;
         TimeFromLastShotAttempt++;
 
@@ -238,7 +252,7 @@ public abstract class Gun : Weapon
         ShootSound();
         ShootEffects();
 
-        SummonProjectile(user, boostAccuracy);
+        SummonProjectile(user, boostAccuracy, Owner.abstractCreature);
 
         room.AddObject(new Spark(firstChunk.pos + upDir * 5f - LastAimDir * 5f, upDir * 8f + Random.insideUnitCircle * 3f, Color.yellow, null, 60, 120));
 
@@ -252,10 +266,39 @@ public abstract class Gun : Weapon
 
     protected virtual void ShootSound() { }
 
+    int PartialReload = -1;
     public void Reload()
     {
         // TODO: implement ammo system
-        var canReload = true;
+        var canReload = false;
+        if (Owner is Player)
+        {
+
+            if ((Owner as Player).TryGetDMDModule(out var dmd))
+            {
+                if (dmd.GunMagazines[AmmoType] > 0)
+                {
+                    canReload = true;
+                    if (dmd.GunMagazines[AmmoType] >= FullClip)
+                    {
+                        dmd.GunMagazines[AmmoType] -= FullClip;
+                        Debug.Log("full reload!");
+                    }
+                    else
+                    {
+                        PartialReload = dmd.GunMagazines[AmmoType];
+                        dmd.GunMagazines[AmmoType] = 0;
+                        Debug.Log("partial reload!");
+                    }
+
+                }
+            }
+            else
+            { 
+                canReload = false;
+            }
+        }
+
 
         if ((canReload) || Owner is Scavenger || Owner == null)
         {
@@ -269,7 +312,7 @@ public abstract class Gun : Weapon
         }
     }
 
-    protected abstract void SummonProjectile(PhysicalObject user, bool boostAccuracy);
+    protected abstract void SummonProjectile(PhysicalObject user, bool boostAccuracy, AbstractCreature owner);
 
     protected void CheckIfArena(World world)
     {

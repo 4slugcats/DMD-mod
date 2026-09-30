@@ -16,6 +16,7 @@ public class AKM : Gun
         RandomSpreadStat = 1.4f;
         PipAngleDiff = 19;
         ClipCost = 1;
+        AmmoType = 0;
         CheckIfArena(world);
     }
 
@@ -24,7 +25,7 @@ public class AKM : Gun
         room.PlaySound(SoundID.Fire_Spear_Explode, bodyChunks[0], false, .36f + Random.value * .02f, 1.05f + Random.value * .2f);
     }
 
-    protected override void SummonProjectile(PhysicalObject user, bool boostAccuracy)
+    protected override void SummonProjectile(PhysicalObject user, bool boostAccuracy, AbstractCreature owner)
     {
         var newBullet = new Bullet(user, firstChunk.pos + UpDir * 5f,
             (AimDir.normalized +

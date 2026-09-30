@@ -2,7 +2,7 @@
 using Smoke;
 
 namespace DMD;
-
+/*
 public class GunSmolder : PositionedSmokeEmitter
 {
     public BodyChunk? chunk;
@@ -143,3 +143,4 @@ public class GunSmolder : PositionedSmokeEmitter
         }
     }
 }
+*/

@@ -18,6 +18,7 @@ public class Minigun : Gun
         RandomSpreadStat = 1.4f;
         PipAngleDiff = 3;
         ClipCost = 1;
+        AmmoType = 0;
 
         CheckIfArena(world);
     }
@@ -27,7 +28,7 @@ public class Minigun : Gun
         room.PlaySound(SoundID.Bomb_Explode, bodyChunks[0], false, .8f + Random.value * .1f, 1.15f + Random.value * .2f);
     }
 
-    protected override void SummonProjectile(PhysicalObject user, bool boostAccuracy)
+    protected override void SummonProjectile(PhysicalObject user, bool boostAccuracy, AbstractCreature owner)
     {
         var newBullet = new Bullet(user, firstChunk.pos + UpDir * 2f + AimDir * 20, (AimDir.normalized + (Random.insideUnitCircle * RandomSpreadStat * (boostAccuracy ? 0.3f : 1f)) * .045f).normalized, DamageStat, 4.5f + 2f * DamageStat, 15f + 30f * DamageStat, false);
 

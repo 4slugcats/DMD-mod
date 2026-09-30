@@ -14,6 +14,7 @@ public class GrenadeLauncher : Gun
         GunLength = 87;
         RandomSpreadStat = 0.2f;
         ClipCost = 4;
+        AmmoType = 4;
         CheckIfArena(world);
     }
 
@@ -37,7 +38,7 @@ public class GrenadeLauncher : Gun
         }
     }
 
-    protected override void SummonProjectile(PhysicalObject user, bool boostAccuracy)
+    protected override void SummonProjectile(PhysicalObject user, bool boostAccuracy, AbstractCreature owner)
     {
         var grenadeAPO = new AbstractPhysicalObject(room.world, Enums.Guns.Projectiles.Grenade, null, abstractPhysicalObject.pos, room.world.game.GetNewID());
         grenadeAPO.RealizeInRoom();

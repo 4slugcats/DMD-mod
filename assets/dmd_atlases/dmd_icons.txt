@@ -1,0 +1,52 @@
+{"frames": {
+
+"dmd_icon_akm.png":
+{
+	"frame": {"x":0,"y":0,"w":57,"h":16},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":57,"h":16},
+	"sourceSize": {"w":57,"h":16}
+},
+"dmd_icon_bfg.png":
+{
+	"frame": {"x":57,"y":0,"w":40,"h":17},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":40,"h":17},
+	"sourceSize": {"w":40,"h":17}
+},
+"dmd_icon_hand.png":
+{
+	"frame": {"x":97,"y":0,"w":26,"h":30},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":26,"h":30},
+	"sourceSize": {"w":26,"h":30}
+},
+"dmd_icon_minigun.png":
+{
+	"frame": {"x":0,"y":30,"w":66,"h":18},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":66,"h":18},
+	"sourceSize": {"w":66,"h":18}
+},
+"dmd_icon_shotgun.png":
+{
+	"frame": {"x":66,"y":30,"w":46,"h":13},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":46,"h":13},
+	"sourceSize": {"w":46,"h":13}
+}},
+"meta": {
+	"app": "https://www.codeandweb.com/texturepacker",
+	"version": "1.0",
+	"image": "dmd_icons.png",
+	"format": "RGBA8888",
+	"size": {"w":123,"h":48},
+	"scale": "1",
+	"smartupdate": "$TexturePacker:SmartUpdate:0f7a73ff50071d85b099645e1070cc31:581ee4aa2166fbd39b9f1b571c182c1b:8b1d9907b507ef9fc63788ec6e314fa8$"
+}
+}

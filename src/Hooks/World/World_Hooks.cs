@@ -74,7 +74,7 @@ public static class World_Hooks
             }
             else if (self.type == Enums.Guns.Projectiles.BFGOrb)
             {
-                self.realizedObject = new BFGOrb(self);
+                //self.realizedObject = new BFGOrb(self);
             }
         }
 

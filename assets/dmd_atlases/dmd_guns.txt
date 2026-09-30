@@ -1,0 +1,132 @@
+{"frames": {
+
+"dmd_akm.png":
+{
+	"frame": {"x":0,"y":15,"w":57,"h":16},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":57,"h":16},
+	"sourceSize": {"w":57,"h":16}
+},
+"dmd_bfg.png":
+{
+	"frame": {"x":110,"y":15,"w":40,"h":17},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":40,"h":17},
+	"sourceSize": {"w":40,"h":17}
+},
+"dmd_bfg_ballA.png":
+{
+	"frame": {"x":132,"y":32,"w":19,"h":19},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":19,"h":19},
+	"sourceSize": {"w":19,"h":19}
+},
+"dmd_bfg_ballB.png":
+{
+	"frame": {"x":151,"y":32,"w":19,"h":19},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":19,"h":19},
+	"sourceSize": {"w":19,"h":19}
+},
+"dmd_bfg_orb.png":
+{
+	"frame": {"x":170,"y":32,"w":20,"h":20},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":20,"h":20},
+	"sourceSize": {"w":20,"h":20}
+},
+"dmd_deagle.png":
+{
+	"frame": {"x":80,"y":0,"w":25,"h":14},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":25,"h":14},
+	"sourceSize": {"w":25,"h":14}
+},
+"dmd_devastator.png":
+{
+	"frame": {"x":150,"y":15,"w":52,"h":17},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":52,"h":17},
+	"sourceSize": {"w":52,"h":17}
+},
+"dmd_devastator_rocket.png":
+{
+	"frame": {"x":0,"y":0,"w":17,"h":4},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":17,"h":4},
+	"sourceSize": {"w":17,"h":4}
+},
+"dmd_glock.png":
+{
+	"frame": {"x":17,"y":0,"w":17,"h":11},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":17,"h":11},
+	"sourceSize": {"w":17,"h":11}
+},
+"dmd_minigun0.png":
+{
+	"frame": {"x":0,"y":32,"w":66,"h":18},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":66,"h":18},
+	"sourceSize": {"w":66,"h":18}
+},
+"dmd_minigun1.png":
+{
+	"frame": {"x":66,"y":32,"w":66,"h":18},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":66,"h":18},
+	"sourceSize": {"w":66,"h":18}
+},
+"dmd_rpg.png":
+{
+	"frame": {"x":57,"y":15,"w":53,"h":16},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":53,"h":16},
+	"sourceSize": {"w":53,"h":16}
+},
+"dmd_shotgun.png":
+{
+	"frame": {"x":34,"y":0,"w":46,"h":13},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":46,"h":13},
+	"sourceSize": {"w":46,"h":13}
+},
+"dmd_shrinkray.png":
+{
+	"frame": {"x":159,"y":0,"w":51,"h":15},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":51,"h":15},
+	"sourceSize": {"w":51,"h":15}
+},
+"dmd_supershotgun.png":
+{
+	"frame": {"x":105,"y":0,"w":54,"h":14},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":54,"h":14},
+	"sourceSize": {"w":54,"h":14}
+}},
+"meta": {
+	"app": "https://www.codeandweb.com/texturepacker",
+	"version": "1.0",
+	"image": "dmd_guns.png",
+	"format": "RGBA8888",
+	"size": {"w":210,"h":52},
+	"scale": "1",
+	"smartupdate": "$TexturePacker:SmartUpdate:f0187ade341957e768fd56056bc6734e:7a94720501701024338b1fe855bf854a:82a675488db2d560a10778db1087c960$"
+}
+}

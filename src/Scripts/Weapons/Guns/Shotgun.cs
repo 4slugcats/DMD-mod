@@ -15,6 +15,7 @@ public class Shotgun : Gun
         RandomSpreadStat = 5f;
         PipAngleDiff = 30;
         ClipCost = 2;
+        AmmoType = 1;
         CheckIfArena(world);
     }
 
@@ -24,7 +25,7 @@ public class Shotgun : Gun
         room.PlaySound(SoundID.Bullet_Drip_Strike, bodyChunks[0], false, 1.0f + Random.value * .03f, .5f + Random.value * .07f);
     }
 
-    protected override void SummonProjectile(PhysicalObject user, bool boostAccuracy)
+    protected override void SummonProjectile(PhysicalObject user, bool boostAccuracy, AbstractCreature owner)
     {
         var mult = 6;
         for (var i = mult; i > 0; i--)
