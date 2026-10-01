@@ -44,7 +44,7 @@ public class BFG : Gun
 
     protected override void SummonProjectile(PhysicalObject user, bool boostAccuracy, AbstractCreature owner)
     {
-        room.AddObject(new BFGOrb(this,owner, AimDir * 4f, firstChunk.pos + AimDir * 5));
+        room.AddObject(new BFGOrb(this,owner, AimDir * 4f, firstChunk.pos + AimDir * 5, user.room.game.IsStorySession));
         //dont let pebbels shoot it !!
     }
 }

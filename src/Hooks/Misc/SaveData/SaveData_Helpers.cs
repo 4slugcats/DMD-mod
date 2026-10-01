@@ -2,6 +2,7 @@
 
 public static class SaveData_Helpers
 {
+    //fix duplicate unlocks on new region load
     public static void UnlockGun(this RainWorldGame game, AbstractPhysicalObject.AbstractObjectType id)
     {
         var miscWorld = game.GetMiscWorld();
